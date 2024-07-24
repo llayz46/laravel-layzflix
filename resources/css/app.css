@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --text-title: #27272a;
+        --text-body: #52525b;
+        --background: #ffffff;
+    }
+
+    .dark {
+        --text-title: #f4f4f5;
+        --text-body: #d4d4d8;
+        --background: #0e0e11;
+    }
+}
