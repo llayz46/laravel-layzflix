@@ -29,9 +29,10 @@
         <x-section-title>The 3 highest-rated movies</x-section-title>
         <x-section-description>Discover our users' favorite picks! Dive into a collection that highlights the films our audience loves the most, offering a diverse range of cinematic excellence.</x-section-description>
         <div class="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-3 xl:gap-x-8 mt-6 lg:mt-8">
-            <x-card-film href="#" src="/storage/affiche_test.webp" movie-title="The Gentlemen"/>
-            <x-card-film href="#" src="/storage/affiche_test.webp" movie-title="The Gentlemen"/>
-            <x-card-film href="#" src="/storage/affiche_test.webp" movie-title="The Gentlemen"/>
+{{--            TODO : changer la requête par les films les plus populaires de l'app (note utilisateur) --}}
+            @foreach($topRatedMovies as $movie)
+                <x-card-film :movie="$movie"/>
+            @endforeach
         </div>
     </x-section>
 
