@@ -1,8 +1,8 @@
 @props(['movie'])
 
-<a {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }}>
+<a href="{{ route('movies.show', ['id' => $movie['id'], 'movie' => \Illuminate\Support\Str::slug($movie['title'])]) }}" {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }}>
     @if($movie['poster_path'])
-        <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity" alt="">
+        <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity" alt="">
     @else
         <div role="status" class="animate-pulse md:flex md:items-center h-full">
             <div class="flex items-center justify-center w-full h-full bg-gray-300 rounded sm:w-96 dark:bg-gray-700">

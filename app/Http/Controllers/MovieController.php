@@ -32,22 +32,52 @@ class MovieController extends Controller
         ]);
     }
 
-    private function getMovieGenreNameByGenreId(Array $movie): array {
-        $response = Http::get('https://api.themoviedb.org/3/genre/movie/list', [
+    public function show(String $movie)
+    {
+        $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}", [
             'api_key' => config('services.tmdb.token'),
         ]);
 
-        $genres = $response['genres'];
-        $genreIds = $movie['genre_ids'];
+        $movie = $response->json();
+        $movie['credits'] = $this->getCreditsByMovieId($movie['id']);
 
-        foreach ($genreIds as $genreId) {
-            foreach ($genres as $genre) {
-                if ($genre['id'] === $genreId) {
-                    $movie['genre_names'][] = $genre['name'];
-                }
-            }
-        }
+        $directorFromCast = array_filter($movie['credits']['crew'], function ($crew) {
+            return $crew['job'] === 'Director';
+        });
+        $director = (new Collection($directorFromCast))->first();
 
-        return $movie;
+        return view('movies.show', [
+            'movie' => $movie,
+            'director' => $director,
+        ]);
+    }
+
+//    private function getMovieGenreNameByGenreId(Array $movie): array
+//    {
+//        $response = Http::get('https://api.themoviedb.org/3/genre/movie/list', [
+//            'api_key' => config('services.tmdb.token'),
+//        ]);
+//
+//        $genres = $response['genres'];
+//        $genreIds = $movie['genre_ids'];
+//
+//        foreach ($genreIds as $genreId) {
+//            foreach ($genres as $genre) {
+//                if ($genre['id'] === $genreId) {
+//                    $movie['genre_names'][] = $genre['name'];
+//                }
+//            }
+//        }
+//
+//        return $movie;
+//    }
+
+    protected function getCreditsByMovieId(String $movie): array
+    {
+        $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}/credits", [
+            'api_key' => config('services.tmdb.token')
+        ]);
+
+        return $response->json();
     }
 }

@@ -1,4 +1,4 @@
-<div class="flex space-x-4 text-sm text-body">
+<div {{ $attributes->merge(['class' => "flex space-x-4 text-sm text-body"]) }}>
     <div class="flex-none py-10">
         <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-100">
     </div>
