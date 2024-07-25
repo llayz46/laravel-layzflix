@@ -74,10 +74,15 @@
                 </div>
 
                 @guest
-                    <x-button href="#" class="ml-6">Log in</x-button>
+                    <x-button href="{{ route('auth.login') }}" class="ml-6" type="secondary">Log in</x-button>
+                    <x-button href="{{ route('auth.register') }}" class="ml-6">Sign up</x-button>
                 @endguest
                 @auth
-                    <x-button href="#">Log out</x-button>
+                    <form action="{{ route('auth.logout') }}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <x-button type="submit" class="ml-6">Log out</x-button>
+                    </form>
                 @endauth
             </div>
         </div>

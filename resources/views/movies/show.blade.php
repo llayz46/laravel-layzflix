@@ -7,17 +7,15 @@
 
     <div class="bg-background">
         <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <!-- Product -->
             <div class="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
-                <!-- Product image -->
                 <div class="lg:col-span-4 lg:row-end-1">
                     @if($movie['poster_path'])
                         <div class="overflow-hidden rounded-lg bg-gray-100">
-                            <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity object-cover size-full" alt="">
+                            <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="object-cover size-full rounded-lg border border-gray-200 dark:border-white/10 shadow" alt="Movie image of : {{ $movie['title'] }}">
                         </div>
                     @else
                         <div class="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
-                            <img src="/storage/movie_image_placeholder.webp" alt="Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles." class="object-cover object-center">
+                            <img src="/storage/movie_image_placeholder.webp" alt="Sample image, we don't found the movie image" class="object-cover object-center">
                         </div>
                     @endif
                 </div>
@@ -59,7 +57,7 @@
                     </div>
 
                     <span class="isolate inline-flex rounded-md shadow-sm mt-6">
-                        <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-50 hover:bg-gray-50/5 focus:z-10">
+                        <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-200/50 dark:hover:bg-gray-50/5 focus:z-10">
 {{--                            TODO : si c'est en favori mettre en YELLOW --}}
                             <svg class="-ml-0.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" />
