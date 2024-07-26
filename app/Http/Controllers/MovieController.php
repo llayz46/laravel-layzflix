@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
@@ -46,10 +46,46 @@ class MovieController extends Controller
         });
         $director = (new Collection($directorFromCast))->first();
 
+        $favorites = User::where('favorite_films', 'like', "%{$movie['id']}%")->count();
+
         return view('movies.show', [
             'movie' => $movie,
             'director' => $director,
+            'favorites' => $favorites,
         ]);
+    }
+
+    public function movieToFavorite(String $movie)
+    {
+        $user = request()->user();
+
+        $favoriteFilms = json_decode($user->favorite_films, true);
+
+        if(!is_array($favoriteFilms)) {
+            $favoriteFilms = [];
+        }
+
+        if (in_array($movie, $favoriteFilms)) {
+            $key = array_search($movie, $favoriteFilms);
+
+            unset($favoriteFilms[$key]);
+
+            $user->update([
+                'favorite_films' => json_encode($favoriteFilms),
+            ]);
+
+            $user->save();
+
+            return back()->with('success', 'Movie successfully removed from favorites');
+        }
+
+        $favoriteFilms = array_merge($favoriteFilms, [$movie]);
+
+        $user->update([
+            'favorite_films' => json_encode($favoriteFilms),
+        ]);
+
+        return back()->with('success', 'Movie added to favorites');
     }
 
 //    private function getMovieGenreNameByGenreId(Array $movie): array

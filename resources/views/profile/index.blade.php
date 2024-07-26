@@ -19,12 +19,19 @@
                     </div>
                 </div>
                 <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse">
-                    <x-button class="cursor-not-allowed" type="secondary">Message</x-button>
-                    @if($user->id === auth()->user()->id)
-                        <x-button href="{{ route('settings.index') }}">Edit profile</x-button>
-                    @else
-                        <x-button class="cursor-not-allowed">Add friend</x-button>
-                    @endif
+                    @auth
+                        <x-button class="cursor-not-allowed" type="secondary">Message</x-button>
+                        @if($user->id === auth()->user()->id)
+                            <x-button href="{{ route('settings.index') }}">Edit profile</x-button>
+                        @else
+                            <x-button class="cursor-not-allowed">Add friend</x-button>
+                        @endif
+                    @endauth
+
+                    @guest
+                        <x-button href="{{ route('auth.login') }}" type="secondary">Message</x-button>
+                        <x-button href="{{ route('auth.login') }}">Add friend</x-button>
+                    @endguest
                 </div>
             </div>
             <div class="sm:mt-4 hidden sm:block">
@@ -39,11 +46,14 @@
                     <h2 class="text-base font-semibold leading-8 text-primary-500">Favorite movies</h2>
                     <p class="text-sm font-medium text-body">User's Last 5 favorite movies</p>
                 </div>
-                <x-button type="secondary" class="h-fit mt-auto" href="#">Explore</x-button>
+{{--                TODO : garder le même style de page mais juste faire une liste de tout les films fav style page browse--}}
+                <x-button type="secondary" class="h-fit mt-auto cursor-not-allowed">Explore</x-button>
             </div>
             <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
                 <div class="grid grid-cols-1 gap-x-6 md:grid-cols-5 max-md:gap-y-10">
-                    {{--                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>--}}
+                    @foreach($movies as $movie)
+                        <x-card-film :movie="$movie"/>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -54,7 +64,8 @@
                     <h2 class="text-base font-semibold leading-8 text-primary-500">Recent reviews</h2>
                     <p class="text-sm font-medium text-body">User's Last 4 reviews</p>
                 </div>
-                <x-button type="secondary" class="h-fit mt-auto" href="#">Explore</x-button>
+{{--                TODO : garder le même style de page mais juste faire une liste de tout les avis--}}
+                <x-button type="secondary" class="h-fit mt-auto cursor-not-allowed">Explore</x-button>
             </div>
             <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
                 <div class="grid grid-cols-1 gap-x-6 lg:grid-cols-2 gap-y-10">

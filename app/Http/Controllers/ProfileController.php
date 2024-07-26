@@ -7,6 +7,7 @@ use App\Http\Requests\UserPublicProfileRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -14,7 +15,25 @@ class ProfileController extends Controller
 {
     public function index(User $user): View
     {
-        return view('profile.index', compact('user'));
+        if($user->favorite_films) {
+            $favoriteFilms = json_decode($user->favorite_films, true);
+
+            $favoriteFilms = array_slice($favoriteFilms, -5);
+            $favoriteFilms = array_reverse($favoriteFilms);
+
+            foreach ($favoriteFilms as $movie) {
+                $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}", [
+                    'api_key' => config('services.tmdb.token'),
+                ]);
+
+                $movies[] = $response->json();
+            }
+        }
+
+        return view('profile.index', [
+            'user' => $user,
+            'movies' => $movies ?? [],
+        ]);
     }
 
     public function updateInformation(UserPublicProfileRequest $request): RedirectResponse

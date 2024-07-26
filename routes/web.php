@@ -14,17 +14,18 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(MovieController::class)->name('movies.')->prefix('/movies')->group(function () {
     Route::get('/', 'search')->name('search'); // Browse movies page
     Route::get('/{id}-{movie}', 'show')->name('show'); // Show a movie page
+    Route::post('/{id}-{movie}', 'movieToFavorite')->name('favorite'); // Add a movie to favorite
 });
 
 // Auth routes
 Route::controller(AuthController::class)->name('auth.')->group(function () {
-    Route::get('/register', 'register')->name('register'); // Register view page
-    Route::post('/register', 'store')->name('store'); // Register a new user
+    Route::get('/register', 'register')->name('register')->middleware('guest'); // Register view page
+    Route::post('/register', 'store')->name('store')->middleware('guest'); // Register a new user
 
-    Route::get('/login', 'login')->name('login'); // Login view page
-    Route::post('/login', 'doLogin')->name('doLogin'); // Login a user
+    Route::get('/login', 'login')->name('login')->middleware('guest'); // Login view page
+    Route::post('/login', 'doLogin')->name('doLogin')->middleware('guest'); // Login a user
 
-    Route::delete('/logout', 'destroy')->name('logout'); // Logout a user
+    Route::delete('/logout', 'destroy')->name('logout')->middleware('auth'); // Logout a user
 });
 
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {

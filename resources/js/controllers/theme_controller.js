@@ -21,6 +21,7 @@ export default class extends Controller {
         } else {
             this.bodyTarget.classList.remove('dark');
         }
+
         if (this.hasButtonTarget) {
             this.stylingButton();
         }

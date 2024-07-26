@@ -56,16 +56,39 @@
                         <p class="text-sm text-body"><strong>Release date</strong> : @if($movie['release_date']) <time datetime="{{ $movie['release_date'] }}">{{ \Carbon\Carbon::createFromDate($movie['release_date'])->toFormattedDateString() }}</time> @else No info... @endif</p>
                     </div>
 
-                    <span class="isolate inline-flex rounded-md shadow-sm mt-6">
-                        <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-200/50 dark:hover:bg-gray-50/5 focus:z-10">
-{{--                            TODO : si c'est en favori mettre en YELLOW --}}
-                            <svg class="-ml-0.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" />
-                            </svg>
-                            Favorite
-                        </button>
-                        <p class="relative -ml-px inline-flex items-center rounded-r-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 focus:z-10 cursor-default">12k</p>
-                    </span>
+                    @guest
+                        <span class="isolate inline-flex rounded-md shadow-sm mt-6">
+                            <a href="{{ route('auth.login') }}" class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-200/50 dark:hover:bg-gray-50/5 focus:z-10">
+                                <svg class="-ml-0.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" />
+                                </svg>
+                                Favorite
+                            </a>
+                            <p class="relative -ml-px inline-flex items-center rounded-r-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 focus:z-10 cursor-default">12k</p>
+                        </span>
+                    @endguest
+
+                    @auth
+                        <form action="{{ route('movies.favorite', ['id' => $movie['id'], 'movie' => \Illuminate\Support\Str::slug($movie['title'])]) }}" method="post" class="isolate inline-flex rounded-md shadow-sm mt-6">
+                            @csrf
+                            <input type="hidden" name="movie_id" value="{{ $movie['id'] }}">
+                            <button class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-200/50 dark:hover:bg-gray-50/5 focus:z-10">
+    {{--                            TODO : si c'est en favori mettre en YELLOW --}}
+                                @if(str_contains(auth()->user()->favorite_films, $movie['id']))
+                                    <svg class="-ml-0.5 h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" />
+                                    </svg>
+                                    Favorite
+                                @else
+                                    <svg class="-ml-0.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" />
+                                    </svg>
+                                    Add Favorite
+                                @endif
+                            </button>
+                            <p class="relative -ml-px inline-flex items-center rounded-r-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 focus:z-10 cursor-default">{{ $favorites }}</p>
+                        </form>
+                    @endauth
 
                     @if ($movie['credits']['cast'])
                         <div class="mt-10 border-t border-gray-200 dark:border-white/10 pt-10">
