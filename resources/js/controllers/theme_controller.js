@@ -5,7 +5,8 @@ export default class extends Controller {
     static targets = ["body", "toggle", "button", "container", "iconLight", "iconDark"]
 
     connect() {
-        this.bodyTarget.classList.toggle("dark")
+        this.theme = localStorage.getItem('theme');
+        this.applyTheme();
     }
 
     toggle() {
@@ -15,9 +16,18 @@ export default class extends Controller {
     }
 
     applyTheme() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') {
+        if (this.theme === 'dark') {
             this.bodyTarget.classList.add('dark');
+        } else {
+            this.bodyTarget.classList.remove('dark');
+        }
+        if (this.hasButtonTarget) {
+            this.stylingButton();
+        }
+    }
+
+    stylingButton() {
+        if (this.theme === "dark") {
             this.buttonTarget.classList.remove('bg-gray-200')
             this.buttonTarget.classList.add('bg-primary-500')
             this.containerTarget.classList.remove('translate-x-0')
@@ -27,7 +37,6 @@ export default class extends Controller {
             this.iconDarkTarget.classList.remove('opacity-0')
             this.iconDarkTarget.classList.add('opacity-100')
         } else {
-            this.bodyTarget.classList.remove('dark');
             this.buttonTarget.classList.remove('bg-primary-500')
             this.buttonTarget.classList.add('bg-gray-200')
             this.containerTarget.classList.remove('translate-x-5')

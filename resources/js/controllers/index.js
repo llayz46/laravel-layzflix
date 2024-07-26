@@ -5,6 +5,9 @@
 import { Stimulus } from '../libs/stimulus'
 
 
+import CloseableController from './closeable_controller'
+Stimulus.register('closeable', CloseableController)
+
 import DropdownController from './dropdown_controller'
 Stimulus.register('dropdown', DropdownController)
 

@@ -18,6 +18,10 @@
         <x-footer/>
     @endif
 
+    @if(session('success'))
+        <x-notification/>
+    @endif
+
     @vite('resources/js/app.js')
 </body>
 </html>
