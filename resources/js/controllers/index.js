@@ -10,3 +10,6 @@ Stimulus.register('dropdown', DropdownController)
 
 import HelloController from './hello_controller'
 Stimulus.register('hello', HelloController)
+
+import ThemeController from './theme_controller'
+Stimulus.register('theme', ThemeController)

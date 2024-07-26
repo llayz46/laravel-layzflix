@@ -22,7 +22,7 @@
 
                 <div class="relative">
                     <label for="password" class="absolute -top-2 left-2 inline-block bg-background px-1 text-xs font-medium text-title">Password</label>
-                    <x-input-text required :autocomplete="true" field="password"></x-input-text>
+                    <x-input-text required :autocomplete="true" field="password" type="password"></x-input-text>
                     <div class="text-sm text-end mt-1">
                         <a href="#" class="font-semibold text-primary-500 hover:text-primary-400">Forgot password?</a>
                     </div>

@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/x-icon">
     @vite('resources/css/app.css')
 </head>
-<body class="h-full bg-background ">
+<body class="h-full bg-background transition-colors" data-controller="theme" data-theme-target="body">
     {{ $slot }}
 
     @if($footer)

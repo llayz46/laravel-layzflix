@@ -37,11 +37,7 @@
             </div>
             <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
                 <div class="grid grid-cols-1 gap-x-6 md:grid-cols-5 max-md:gap-y-10">
-                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>
-                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>
-                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>
-                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>
-                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>
+{{--                    <x-card-film src="/storage/affiche_test.webp" movie-title="The Gentlemen"></x-card-film>--}}
                 </div>
             </div>
         </div>
