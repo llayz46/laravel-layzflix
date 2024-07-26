@@ -1,7 +1,7 @@
 <x-layout title="Edit my profile">
     <x-header/>
 
-    {{--            TODO : ajouter une section : mon profile public avec la description, mes stats : ex : nb commentaires, etc..--}}
+{{-- TODO : ajouter une section : mon profile public avec la description, mes stats : ex : nb commentaires, etc..--}}
     <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
         <h1 class="text-3xl font-bold leading-tight tracking-tight text-title pt-2">Public profile</h1>
         <section class="container mx-auto max-w-7xl px-6 lg:px-8">
@@ -186,7 +186,6 @@
                             <p class="mt-1 text-sm leading-6 text-body">Choose if you want to use the dark or light theme</p>
                         </div>
                         <div class="flex justify-center items-center">
-{{--                            TODO : fix le toggle de base à light--}}
                             <button type="button" class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background" role="switch" data-action="theme#toggle" data-theme-target="button">
                                 <span class="translate-x-0 pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" data-theme-target="container">
                                     <span class="opacity-100 duration-200 ease-in absolute inset-0 flex h-full w-full items-center justify-center transition-opacity" aria-hidden="true" data-theme-target="iconDark">
