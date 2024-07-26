@@ -11,7 +11,7 @@
                 <div class="lg:col-span-4 lg:row-end-1">
                     @if($movie['poster_path'])
                         <div class="overflow-hidden rounded-lg bg-gray-100">
-                            <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="object-cover size-full rounded-lg border border-gray-200 dark:border-white/10 shadow" alt="Movie image of : {{ $movie['title'] }}">
+                            <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="object-cover size-full rounded-lg border border-gray-200 dark:border-neutral-800 shadow" alt="Movie image of : {{ $movie['title'] }}">
                         </div>
                     @else
                         <div class="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">

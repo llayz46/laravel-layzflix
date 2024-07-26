@@ -5,7 +5,7 @@ export default class extends Controller {
     static targets = ["body", "toggle", "button", "container", "iconLight", "iconDark"]
 
     connect() {
-        this.applyTheme();
+        this.bodyTarget.classList.toggle("dark")
     }
 
     toggle() {

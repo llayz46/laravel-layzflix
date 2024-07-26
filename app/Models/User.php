@@ -23,6 +23,7 @@ class User extends Authenticatable
         'username',
         'email',
         'avatar',
+        'bio',
         'password',
     ];
 
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function imageUrl(): string
     {
         return Storage::disk('public')->url($this->avatar);
+    }
+
+    public function name(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }

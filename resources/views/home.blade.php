@@ -9,14 +9,14 @@
         <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
             <div class="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
-                    Join our community to share your position. <a href="#" class="font-semibold text-white"><span class="absolute inset-0" aria-hidden="true"></span>Register <span aria-hidden="true">&rarr;</span></a>
+                    Join our community to share your position. <a href="{{ route('auth.register') }}" class="font-semibold text-white"><span class="absolute inset-0" aria-hidden="true"></span>Register <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </div>
             <div class="text-center">
                 <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Discover Movies Like Never Before</h1>
                 <p class="mt-6 text-lg leading-8 text-gray-300">Join our community of movie enthusiasts! Explore reviews, share your opinions, and dive into the world of cinema with the latest insights and ratings. Uncover hidden gems and connect with fellow fans today!</p>
                 <div class="mt-10 text-center gap-x-6">
-                    <x-button href="#">Get started</x-button>
+                    <x-button href="{{ route('auth.register') }}">Get started</x-button>
                 </div>
             </div>
         </div>

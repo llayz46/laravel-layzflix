@@ -11,7 +11,7 @@
                     <h2 class="text-base font-semibold leading-7 text-title">{{ $formTitle }}</h2>
                     <p class="mt-1 text-sm leading-6 text-body">{{ $formDescription }}</p>
                     @if ($file)
-                        <img class="mt-2 rounded-md w-2/4" src="{{ $user->imageUrl() }}" alt="">
+                        <img class="mt-2 rounded-md w-2/4 size-32 object-cover" src="{{ $user->imageUrl() }}" alt="">
                     @endif
                 </div>
 

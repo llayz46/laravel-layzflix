@@ -1,9 +1,68 @@
 <x-layout title="Edit my profile">
     <x-header/>
 
+    {{--            TODO : ajouter une section : mon profile public avec la description, mes stats : ex : nb commentaires, etc..--}}
     <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
-        <h1 class="text-3xl font-bold leading-tight tracking-tight text-title pt-2">Profile</h1>
-        <main class="container mx-auto max-w-7xl px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight tracking-tight text-title pt-2">Public profile</h1>
+        <section class="container mx-auto max-w-7xl px-6 lg:px-8">
+            <x-profile-form
+                route="profile.updateInformation"
+                method="PATCH"
+                form-title="Profile Information"
+                :user="$user"
+                formDescription="Update the informations of your public profile. This information will be visible to other users."
+                fields="1"
+                button="Update">
+                <div class="sm:col-span-4">
+                    <div class="relative">
+                        <label for="bio" class="absolute -top-2 left-2 inline-block bg-background px-1 text-xs font-medium text-title">Biographie</label>
+                        <x-textarea field="bio" rows="5">{{ $user->bio }}</x-textarea>
+                        <div class="mt-2">
+                            @error('bio')
+                            <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </x-profile-form>
+
+            <x-profile-form
+                route="profile.updateImage"
+                method="POST"
+                form-title="Profile Image"
+                :file="true"
+                :user="$user"
+                formDescription="Update your profile avatar."
+                fields="1"
+                button="Update">
+                <div class="sm:col-span-4">
+                    <div class="mt-2">
+                        <div class="col-span-full">
+                            <div class="mt-2 flex justify-center rounded-lg border-dashed border-2 dark:border-gray-200/10 px-6 py-10">
+                                <div class="text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <div class="mt-4 flex text-sm leading-6 text-body">
+                                        <label for="avatar" class="relative cursor-pointer rounded-md font-semibold text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 hover:text-primary-400">
+                                            <span>Upload a file</span>
+                                            <input id="avatar" name="avatar" type="file" class="sr-only">
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs leading-5 text-body">PNG, JPG, SVG up to 10MB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </x-profile-form>
+        </section>
+    </div>
+
+    <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
+        <h1 class="text-3xl font-bold leading-tight tracking-tight text-title pt-2">Profile settings</h1>
+        <section class="container mx-auto max-w-7xl px-6 lg:px-8">
             <x-profile-form
                 route="profile.update"
                 method="PATCH"
@@ -52,38 +111,6 @@
                             @error('username')
                             <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
                             @enderror
-                        </div>
-                    </div>
-                </div>
-            </x-profile-form>
-
-            <x-profile-form
-                route="profile.updateImage"
-                method="POST"
-                form-title="Profile Image"
-                :file="true"
-                :user="$user"
-                formDescription="Update your profile avatar."
-                fields="1"
-                button="Update">
-                <div class="sm:col-span-4">
-                    <div class="mt-2">
-                        <div class="col-span-full">
-                            <div class="mt-2 flex justify-center rounded-lg border-dashed border-2 dark:border-gray-200/10 px-6 py-10">
-                                <div class="text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-                                    </svg>
-                                    <div class="mt-4 flex text-sm leading-6 text-body">
-                                        <label for="avatar" class="relative cursor-pointer rounded-md font-semibold text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 hover:text-primary-400">
-                                            <span>Upload a file</span>
-                                            <input id="avatar" name="avatar" type="file" class="sr-only">
-                                        </label>
-                                        <p class="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p class="text-xs leading-5 text-body">PNG, JPG, SVG up to 10MB</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -145,21 +172,22 @@
                     </div>
                 </div>
             </x-profile-form>
-        </main>
+        </section>
     </div>
 
     <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
         <h1 class="text-3xl font-bold leading-tight tracking-tight text-title pt-2">Settings</h1>
-        <main class="container mx-auto max-w-7xl px-6 lg:px-8">
+        <section class="container mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="space-y-12 mt-10">
-                    <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 dark:border-gray-200/10 pb-12 md:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-12 md:grid-cols-3">
                         <div>
                             <h2 class="text-base font-semibold leading-7 text-title">Toggle DarkMode</h2>
                             <p class="mt-1 text-sm leading-6 text-body">Choose if you want to use the dark or light theme</p>
                         </div>
                         <div class="flex justify-center items-center">
-                            <button type="button" class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background" role="switch" aria-checked="false" data-action="theme#toggle" data-theme-target="button">
+{{--                            TODO : fix le toggle de base à light--}}
+                            <button type="button" class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background" role="switch" data-action="theme#toggle" data-theme-target="button">
                                 <span class="translate-x-0 pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" data-theme-target="container">
                                     <span class="opacity-100 duration-200 ease-in absolute inset-0 flex h-full w-full items-center justify-center transition-opacity" aria-hidden="true" data-theme-target="iconDark">
                                         <svg class="h-3 w-3 text-indigo-600" viewBox="0 0 12 12" fill="currentColor">
@@ -186,6 +214,6 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </section>
     </div>
 </x-layout>

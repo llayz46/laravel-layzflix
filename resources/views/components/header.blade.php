@@ -57,20 +57,25 @@
             <div class="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
                 <!-- Profile dropdown -->
                 <div class="relative ml-5 flex-shrink-0">
-                    <div>
-                        <button type="button" data-action="dropdown#toggle" class="@if($inputTransparent) focus:ring-offset-[#111828] @endif relative flex rounded-full bg-background focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">Open user menu</span>
-                            <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                        </button>
-                    </div>
+                    @auth
+                        <div>
+                            <button type="button" data-action="dropdown#toggle" class="@if($inputTransparent) focus:ring-offset-[#111828] @endif relative flex rounded-full bg-background focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ auth()->user()->avatar ? auth()->user()->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. auth()->user()->name() .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}" alt="">
+                            </button>
+                        </div>
 
-                    <div data-dropdown-target="content" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-background py-1 shadow-lg dark:shadow-gray-500/5 dark:border dark:border-gray-200/10 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                        <!-- Active: "bg-gray-100", Not Active: "" -->
-                        <a href="#" class="block px-4 py-2 text-sm text-title hover:bg-gray-200 dark:hover:bg-gray-200/10" role="menuitem" tabindex="-1" id="user-menu-item-0">Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-title hover:bg-gray-200 dark:hover:bg-gray-200/10" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-title hover:bg-gray-200 dark:hover:bg-gray-200/10" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-                    </div>
+                        <div data-dropdown-target="content" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-background py-1 shadow-lg dark:shadow-gray-500/5 dark:border dark:border-gray-200/10 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                            <a href="{{ route('profile.index', auth()->user()->username) }}" class="block px-4 py-2 text-sm text-title hover:bg-gray-200 dark:hover:bg-gray-200/10 {{ request()->routeIs('profile.index') ? 'bg-gray-100 dark:bg-gray-100/5' : '' }}" role="menuitem" tabindex="-1">Profile</a>
+                            <a href="{{ route('settings.index') }}" class="block px-4 py-2 text-sm text-title hover:bg-gray-200 dark:hover:bg-gray-200/10 {{ request()->routeIs('settings.index') ? 'bg-gray-100 dark:bg-gray-100/5' : '' }}" role="menuitem" tabindex="-1">Settings</a>
+                            <form action="{{ route('auth.logout') }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="w-full text-start block px-4 py-2 text-sm text-title hover:bg-gray-200 dark:hover:bg-gray-200/10" role="menuitem" tabindex="-1">Sign out</button>
+                            </form>
+                        </div>
+                    @endauth
                 </div>
 
                 @guest
