@@ -18,8 +18,8 @@
         <x-footer/>
     @endif
 
-    @if(session('success'))
-        <x-notification/>
+    @if(session('success') || session('error'))
+        <x-notification status="{{ session('success') ? 'success' : 'error' }}"/>
     @endif
 </body>
 </html>

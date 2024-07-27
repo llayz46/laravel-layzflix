@@ -2,9 +2,7 @@
 
 <div class="flex items-start space-x-4">
     <div class="flex-shrink-0">
-        <img class="inline-block h-10 w-10 rounded-full"
-             src="{{ auth()->user()->avatar ? auth()->user()->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. auth()->user()->name() .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}"
-             alt="">
+        <x-user-avatar class="inline-block h-10 w-10 rounded-full"/>
     </div>
     <div class="min-w-0 flex-1">
         <form action="{{ route('review.add') }}" class="relative" method="post">
@@ -13,7 +11,7 @@
                 <p class="mb-2 text-sm text-red-500">{{ $message }}</p>
             @enderror
             @error('comment')
-            <p class="mb-2 text-sm text-red-500">{{ $message }}</p>
+                <p class="mb-2 text-sm text-red-500">{{ $message }}</p>
             @enderror
             <div
                 class="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-200 dark:border-white/10 focus-within:ring-2 focus-within:ring-primary-500">

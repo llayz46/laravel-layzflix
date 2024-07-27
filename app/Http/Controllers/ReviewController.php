@@ -14,6 +14,10 @@ class ReviewController extends Controller
 
         $data['user_id'] = auth()->id();
 
+        if (auth()->user()->reviews()->where('movie_id', $data['movie_id'])->exists()) {
+            return back()->with('error', 'You have already reviewed this movie.');
+        }
+
         $review = Review::create($data);
 
         $review->save();

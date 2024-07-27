@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileAvatarRequest;
 use App\Http\Requests\UserPublicProfileRequest;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
@@ -30,9 +31,16 @@ class ProfileController extends Controller
             }
         }
 
+        if($user->reviews()) {
+            $lastReviews = $user->reviews()->orderBy('created_at', 'desc')->take(3)->get(['comment', 'note', 'created_at', 'movie_id']);
+
+            Review::addMovieToReview($lastReviews);
+        }
+
         return view('profile.index', [
             'user' => $user,
             'movies' => $movies ?? [],
+            'lastReviews' => $lastReviews ?? [],
         ]);
     }
 

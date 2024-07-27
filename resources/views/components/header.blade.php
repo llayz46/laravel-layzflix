@@ -62,7 +62,7 @@
                             <button type="button" data-action="dropdown#toggle" class="@if($inputTransparent) focus:ring-offset-[#111828] @endif relative flex rounded-full bg-background focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ auth()->user()->avatar ? auth()->user()->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. auth()->user()->name() .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}" alt="">
+                                <x-user-avatar class="h-8 w-8 rounded-full object-cover"/>
                             </button>
                         </div>
 

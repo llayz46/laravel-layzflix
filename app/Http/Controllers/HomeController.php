@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
@@ -14,6 +15,13 @@ class HomeController extends Controller
 
         $topRatedMovies = collect($response['results'])->take(3);
 
-        return view('home', compact('topRatedMovies'));
+        $lastReviews = Review::orderBy('created_at', 'desc')->with('user:id,username,avatar')->take(3)->get();
+
+        Review::addMovieToReview($lastReviews);
+
+        return view('home', [
+            'topRatedMovies' => $topRatedMovies,
+            'lastReviews' => $lastReviews,
+        ]);
     }
 }

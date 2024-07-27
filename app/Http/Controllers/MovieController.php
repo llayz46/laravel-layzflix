@@ -49,7 +49,7 @@ class MovieController extends Controller
 
         $favorites = User::where('favorite_films', 'like', "%{$movie['id']}%")->count();
 
-        $reviews = Review::with('user')->where('movie_id', $movie['id'])->get();
+        $reviews = Review::with('user:id,username,avatar')->where('movie_id', $movie['id'])->get();
 
         return view('movies.show', [
             'movie' => $movie,

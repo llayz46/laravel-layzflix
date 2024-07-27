@@ -40,9 +40,9 @@
         <x-section-title>The last 3 reviews</x-section-title>
         <x-section-description>Stay updated with the latest insights from our community. Here are the most recent three reviews, offering fresh perspectives on the newest films and series. Discover what’s being said about the latest releases and find your next watch!</x-section-description>
         <div class="grid grid-cols-1 md:grid-cols-3 mt-6 lg:mt-8">
-            <x-card-review></x-card-review>
-            <x-card-review></x-card-review>
-            <x-card-review></x-card-review>
+            @foreach($lastReviews as $review)
+                <x-card-review :review="$review"/>
+            @endforeach
         </div>
     </x-section>
 </x-layout>
