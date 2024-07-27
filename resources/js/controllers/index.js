@@ -4,7 +4,6 @@
 
 import { Stimulus } from '../libs/stimulus'
 
-
 import CloseableController from './closeable_controller'
 Stimulus.register('closeable', CloseableController)
 
@@ -13,6 +12,9 @@ Stimulus.register('dropdown', DropdownController)
 
 import HelloController from './hello_controller'
 Stimulus.register('hello', HelloController)
+
+import RatingController from './rating_controller'
+Stimulus.register('rating', RatingController)
 
 import ThemeController from './theme_controller'
 Stimulus.register('theme', ThemeController)

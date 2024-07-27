@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Comment extends Model
+class Review extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,9 +13,10 @@ class Comment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
+        'comment',
+        'note',
         'movie_id',
-        'content',
+        'user_id',
     ];
 
     public function user(): BelongsTo

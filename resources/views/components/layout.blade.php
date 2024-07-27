@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }} - {{ config('app.name') }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/x-icon">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full bg-background transition-colors" data-controller="theme" data-theme-target="body">
     {{ $slot }}
@@ -21,7 +21,5 @@
     @if(session('success'))
         <x-notification/>
     @endif
-
-    @vite('resources/js/app.js')
 </body>
 </html>

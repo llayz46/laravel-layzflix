@@ -20,7 +20,6 @@
                     @endif
                 </div>
 
-                <!-- Product details -->
                 <div class="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:ml-0 lg:max-w-none">
                     <div class="flex flex-col-reverse">
                         <h1 class="mt-4 text-2xl font-bold tracking-tight text-title sm:text-3xl">{{ Str::title($movie['title']) }}</h1>
@@ -132,17 +131,32 @@
 
                 <div class="mx-auto mt-16 w-full max-w-2xl lg:col-span-4 lg:mt-0 lg:max-w-none">
                     <div>
-                        <div class="border-b border-gray-200 dark:border-white/10">
+                        <div class="border-b border-gray-200 dark:border-white/10 mb-10">
                             <p class="border-transparent text-title whitespace-nowrap border-b-2 py-6 text-sm font-medium">Reviews</p>
                         </div>
 
                         <div class="-mb-10">
                             <h3 class="sr-only">Reviews</h3>
 {{--                            TODO : foreach comments as comment if ce n'est pas le premier : on ajoute les classes--}}
-                            <x-comment-film/>
-                            <x-comment-film class="border-t border-gray-200 dark:border-white/10"/>
+                            @foreach($reviews as $review)
+                                <x-comment-film :review="$review"/>
+                            @endforeach
+{{--                            <x-comment-film class="border-t border-gray-200 dark:border-white/10"/>--}}
                         </div>
                     </div>
+                </div>
+
+                <div class="mx-auto mt-16 w-full max-w-2xl lg:col-span-4 lg:mt-0 lg:max-w-none">
+                    @auth
+                        <x-comment-add :movieId="$movie['id']"/>
+                    @endauth
+                    @guest
+                        <div class="flex justify-center">
+                            <div class="w-fit relative rounded-full px-3 py-1 text-sm leading-6 text-body ring-1 ring-gray-200 dark:ring-white/10 group">
+                                You must be logged in to add a comment. <a href="{{ route('auth.login') }}" class="font-semibold text-primary-500 group-hover:text-primary-400"><span class="absolute inset-0" aria-hidden="true"></span>Please sign in <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </div>

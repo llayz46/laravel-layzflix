@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -48,10 +49,13 @@ class MovieController extends Controller
 
         $favorites = User::where('favorite_films', 'like', "%{$movie['id']}%")->count();
 
+        $reviews = Review::with('user')->where('movie_id', $movie['id'])->get();
+
         return view('movies.show', [
             'movie' => $movie,
             'director' => $director,
             'favorites' => $favorites,
+            'reviews' => $reviews,
         ]);
     }
 

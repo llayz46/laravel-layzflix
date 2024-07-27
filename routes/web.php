@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
@@ -9,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 // Home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Store a comment
+Route::post('/review', [ReviewController::class, 'addReview'])->name('review.add')->middleware('auth');
 
 // Movies routes
 Route::controller(MovieController::class)->name('movies.')->prefix('/movies')->group(function () {
@@ -28,12 +32,14 @@ Route::controller(AuthController::class)->name('auth.')->group(function () {
     Route::delete('/logout', 'destroy')->name('logout')->middleware('auth'); // Logout a user
 });
 
+// Settings routes
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/settings', 'index')->name('settings.index'); // Settings view page
     Route::patch('/settings', 'update')->name('profile.update'); // Update a user profile
     Route::put('/settings', 'updatePassword')->name('profile.updatePassword'); // Update a user password
 });
 
+// Profile routes
 Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile/{user:username}', 'index')->name('profile.index'); // Profile view page
     Route::patch('/profile', 'updateInformation')->name('profile.updateInformation'); // Update a user profile information
