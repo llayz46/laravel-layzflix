@@ -51,11 +51,14 @@ class MovieController extends Controller
 
         $reviews = Review::with('user:id,username,avatar')->where('movie_id', $movie['id'])->get();
 
+        $note = Review::where('movie_id', $movie['id'])->avg('note');
+
         return view('movies.show', [
             'movie' => $movie,
             'director' => $director,
             'favorites' => $favorites,
             'reviews' => $reviews,
+            'note' => $note,
         ]);
     }
 

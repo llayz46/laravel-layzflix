@@ -32,7 +32,7 @@ class ProfileController extends Controller
         }
 
         if($user->reviews()) {
-            $lastReviews = $user->reviews()->orderBy('created_at', 'desc')->take(3)->get(['comment', 'note', 'created_at', 'movie_id']);
+            $lastReviews = $user->reviews()->orderBy('created_at', 'desc')->take(4)->get(['comment', 'note', 'created_at', 'movie_id']);
 
             Review::addMovieToReview($lastReviews);
         }

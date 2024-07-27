@@ -19,5 +19,15 @@
         <div class="prose prose-sm mt-4 max-w-none text-body">
             <p>{{ \Illuminate\Support\Str::ucfirst($review['comment']) }}</p>
         </div>
+
+        @auth
+            @if($review->user_id === auth()->user()->id)
+                <form action="{{ route('review.delete', $review) }}" method="post" class="mt-4">
+                    @method('DELETE')
+                    @csrf
+                    <x-button type="danger">Delete</x-button>
+                </form>
+            @endif
+        @endauth
     </div>
 </div>

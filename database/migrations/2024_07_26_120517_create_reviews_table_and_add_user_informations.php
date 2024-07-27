@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->integer('movie_id');
             $table->text('comment');
-            $table->integer('note');
+            $table->float('note', 6, 5);
             $table->timestamps();
         });
 
@@ -36,6 +36,6 @@ return new class extends Migration
             $table->dropColumn('favorite_films');
         });
 
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('reviews');
     }
 };

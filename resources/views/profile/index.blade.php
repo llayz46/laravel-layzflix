@@ -33,46 +33,51 @@
                 </div>
             </div>
             <div class="sm:mt-4 hidden sm:block">
-                <x-badge tag="span">Test</x-badge>
-                <x-badge tag="span">Option</x-badge>
+                <x-badge tag="span">{{ count($movies) }} Favorite movie(s)</x-badge>
+                <x-badge tag="span">{{ count($lastReviews) }} Review(s)</x-badge>
             </div>
         </div>
 
-        <div class="mt-6">
-            <div class="flex justify-between">
-                <div>
-                    <h2 class="text-base font-semibold leading-8 text-primary-500">Favorite movies</h2>
-                    <p class="text-sm font-medium text-body">{{ \Illuminate\Support\Str::ucfirst($user->username) }}'s Last 5 favorite movies</p>
+        @if(count($movies) > 0)
+            <div class="mt-6">
+                <div class="flex justify-between">
+                    <div>
+                        <h2 class="text-base font-semibold leading-8 text-primary-500">Favorite movies</h2>
+                        <p class="text-sm font-medium text-body">{{ \Illuminate\Support\Str::ucfirst($user->username) }}'s Last {{ count($movies) }} favorite movies</p>
+                    </div>
+    {{-- TODO : garder le même style de page mais juste faire une liste de tout les films fav style page browse--}}
+                    <x-button type="secondary" class="h-fit mt-auto cursor-not-allowed">Explore</x-button>
                 </div>
-{{-- TODO : garder le même style de page mais juste faire une liste de tout les films fav style page browse--}}
-                <x-button type="secondary" class="h-fit mt-auto cursor-not-allowed">Explore</x-button>
-            </div>
-            <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
-                <div class="grid grid-cols-1 gap-x-6 md:grid-cols-5 max-md:gap-y-10">
-                    @foreach($movies as $movie)
-                        <x-card-film :movie="$movie"/>
-                    @endforeach
+                <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
+                    <div class="grid grid-cols-1 gap-x-6 md:grid-cols-5 max-md:gap-y-10">
+                        @foreach($movies as $movie)
+                            <x-card-film :movie="$movie"/>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
-        <div class="mt-12">
-            <div class="flex justify-between">
-                <div>
-                    <h2 class="text-base font-semibold leading-8 text-primary-500">Recent reviews</h2>
-                    <p class="text-sm font-medium text-body">{{ \Illuminate\Support\Str::ucfirst($user->username) }}'s Last 4 reviews</p>
+        @if(count($lastReviews) > 0)
+{{--            <div class="mt-12">--}}
+            <div class="@if(!count($movies)) mt-6 @else mt-12 @endif">
+                <div class="flex justify-between">
+                    <div>
+                        <h2 class="text-base font-semibold leading-8 text-primary-500">Recent reviews</h2>
+                        <p class="text-sm font-medium text-body">{{ \Illuminate\Support\Str::ucfirst($user->username) }}'s Last {{ count($lastReviews) }} reviews</p>
+                    </div>
+    {{-- TODO : garder le même style de page mais juste faire une liste de tout les avis--}}
+                    <x-button type="secondary" class="h-fit mt-auto cursor-not-allowed">Explore</x-button>
                 </div>
-{{-- TODO : garder le même style de page mais juste faire une liste de tout les avis--}}
-                <x-button type="secondary" class="h-fit mt-auto cursor-not-allowed">Explore</x-button>
-            </div>
-            <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
-                <div class="grid grid-cols-1 gap-x-6 lg:grid-cols-2 gap-y-10">
-                    @foreach($lastReviews as $review)
-                        <x-review-flim :review="$review" class="pb-5 border-b border-gray-200 dark:border-white/10"/>
-                    @endforeach
+                <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
+                    <div class="grid grid-cols-1 gap-x-6 lg:grid-cols-2 gap-y-10">
+                        @foreach($lastReviews as $review)
+                            <x-review-flim :review="$review" class="pb-5 border-b border-gray-200 dark:border-white/10"/>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
     </div>
 </x-layout>

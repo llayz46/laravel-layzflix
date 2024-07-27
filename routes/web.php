@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Route;
 // Home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Store a comment
-Route::post('/review', [ReviewController::class, 'addReview'])->name('review.add')->middleware('auth');
+// Review routes
+Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('auth')->group(function () {
+    Route::post('/', 'addReview')->name('add'); // Store a review
+    Route::delete('/{review}', 'deleteReview')->name('delete'); // Delete a review
+});
 
 // Movies routes
 Route::controller(MovieController::class)->name('movies.')->prefix('/movies')->group(function () {

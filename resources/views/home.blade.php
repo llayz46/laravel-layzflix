@@ -29,10 +29,13 @@
         <x-section-title>The 3 highest-rated movies</x-section-title>
         <x-section-description>Discover our users' favorite picks! Dive into a collection that highlights the films our audience loves the most, offering a diverse range of cinematic excellence.</x-section-description>
         <div class="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-3 xl:gap-x-8 mt-6 lg:mt-8">
-{{--            TODO : changer la requête par les films les plus populaires de l'app (note utilisateur) --}}
-            @foreach($topRatedMovies as $movie)
-                <x-card-film :movie="$movie"/>
-            @endforeach
+            @if(count($topRatedMovies) === 0)
+                <x-section-description>Sorry, for the moment we can't provide you the 3 highest-rated movies.</x-section-description>
+            @else
+                @foreach($topRatedMovies as $movie)
+                    <x-card-film :movie="$movie"/>
+                @endforeach
+            @endif
         </div>
     </x-section>
 
@@ -40,9 +43,13 @@
         <x-section-title>The last 3 reviews</x-section-title>
         <x-section-description>Stay updated with the latest insights from our community. Here are the most recent three reviews, offering fresh perspectives on the newest films and series. Discover what’s being said about the latest releases and find your next watch!</x-section-description>
         <div class="grid grid-cols-1 md:grid-cols-3 mt-6 lg:mt-8">
-            @foreach($lastReviews as $review)
-                <x-card-review :review="$review"/>
-            @endforeach
+            @if(count($lastReviews) === 0)
+                <x-section-description>Sorry, for the moment we can't provide you the 3 last reviews.</x-section-description>
+            @else
+                @foreach($lastReviews as $review)
+                    <x-card-review :review="$review"/>
+                @endforeach
+            @endif
         </div>
     </x-section>
 </x-layout>
