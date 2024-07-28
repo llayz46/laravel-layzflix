@@ -61,4 +61,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function friends(): HasMany
+    {
+        return $this->hasMany(Friend::class);
+    }
+
+    public function isFriendWith(User $user): bool
+    {
+        return $this->friends()->where('friend_id', $user->id)->exists();
+    }
 }

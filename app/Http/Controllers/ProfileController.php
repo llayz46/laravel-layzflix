@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileAvatarRequest;
 use App\Http\Requests\UserPublicProfileRequest;
+use App\Models\Movie;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -16,20 +17,7 @@ class ProfileController extends Controller
 {
     public function index(User $user): View
     {
-        if($user->favorite_films) {
-            $favoriteFilms = json_decode($user->favorite_films, true);
-
-            $favoriteFilms = array_slice($favoriteFilms, -5);
-            $favoriteFilms = array_reverse($favoriteFilms);
-
-            foreach ($favoriteFilms as $movie) {
-                $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}", [
-                    'api_key' => config('services.tmdb.token'),
-                ]);
-
-                $movies[] = $response->json();
-            }
-        }
+        $movies = Movie::favorites($user, true);
 
         if($user->reviews()) {
             $lastReviews = $user->reviews()->orderBy('created_at', 'desc')->take(4)->get(['comment', 'note', 'created_at', 'movie_id']);
@@ -37,10 +25,16 @@ class ProfileController extends Controller
             Review::addMovieToReview($lastReviews);
         }
 
+        $numberOfMovies = Movie::getNumberOfFavoritesMovies($user);
+
+        $numberOfReviews = Review::where('user_id', $user->id)->count();
+
         return view('profile.index', [
             'user' => $user,
             'movies' => $movies ?? [],
+            'numberOfMovies' => $numberOfMovies,
             'lastReviews' => $lastReviews ?? [],
+            'numberOfReviews' => $numberOfReviews,
         ]);
     }
 
@@ -75,5 +69,37 @@ class ProfileController extends Controller
         ]);
 
         return back()->with('success', 'Image updated successfully');
+    }
+
+    public function reviews(User $user): View
+    {
+        $reviews = $user->reviews()->orderBy('created_at', 'desc')->paginate(10);
+
+        Review::addMovieToReview($reviews);
+
+        $movies = Movie::getNumberOfFavoritesMovies($user);
+
+        $numberOfReviews = Review::where('user_id', $user->id)->count();
+
+        return view('profile.reviews', [
+            'user' => $user,
+            'reviews' => $reviews,
+            'movies' => $movies,
+            'numberOfReviews' => $numberOfReviews,
+        ]);
+    }
+
+    public function favorites(User $user): View
+    {
+        $movies = Movie::favorites($user);
+
+        $numberOfReviews = Review::where('user_id', $user->id)->count();
+
+        return view('profile.favorites', [
+            'user' => $user,
+            'movies' => $movies ?? [],
+            'numberOfReviews' => $numberOfReviews,
+            'numberOfMovies' => Movie::getNumberOfFavoritesMovies($user),
+        ]);
     }
 }

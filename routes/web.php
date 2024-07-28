@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
@@ -47,4 +48,14 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile/{user:username}', 'index')->name('profile.index'); // Profile view page
     Route::patch('/profile', 'updateInformation')->name('profile.updateInformation'); // Update a user profile information
     Route::post('/settings', 'updateImage')->name('profile.updateImage'); // Update a user profile image
+
+    Route::get('/profile/{user:username}/reviews', 'reviews')->name('profile.reviews'); // User reviews view page
+    Route::get('/profile/{user:username}/favorites', 'favorites')->name('profile.favorites'); // User favorites view page
+});
+
+// Friend routes
+Route::controller(FriendController::class)->middleware('auth')->group(function () {
+    Route::post('/friend/{user:username}', 'add')->name('friend.add'); // Add a friend
+    Route::delete('/friend/{user:username}', 'delete')->name('friend.delete'); // Delete a friend
+    // TODO : Une listes des amis ?
 });

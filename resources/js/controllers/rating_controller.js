@@ -12,9 +12,9 @@ export default class extends Controller {
 
                 this.starsTargets.forEach((s, i) => {
                     if (i <= index) {
-                        s.classList.add('text-yellow-400')
+                        s.classList.add('text-yellow-400', 'dark:text-yellow-400')
                     } else {
-                        s.classList.remove('text-yellow-400')
+                        s.classList.remove('text-yellow-400', 'dark:text-yellow-400')
                     }
                 })
             })
