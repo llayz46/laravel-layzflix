@@ -16,7 +16,13 @@ class MovieController extends Controller
         $query = $request->input('search');
         $page = $request->input('page', 1);
 
-        $response = Http::get('https://api.themoviedb.org/3/search/movie', [
+//        $response = Http::get('https://api.themoviedb.org/3/search/movie', [
+//            'api_key' => config('services.tmdb.token'),
+//            'query' => $query,
+//            'page' => $page,
+//        ]);
+
+        $response = Http::get('https://api.themoviedb.org/3/search/multi', [
             'api_key' => config('services.tmdb.token'),
             'query' => $query,
             'page' => $page,
@@ -49,7 +55,7 @@ class MovieController extends Controller
 
         $favorites = User::where('favorite_films', 'like', "%{$movie['id']}%")->count();
 
-        $reviews = Review::with('user:id,username,avatar')->where('movie_id', $movie['id'])->get();
+        $reviews = Review::with('user:id,username,avatar')->where('movie_id', $movie['id'])->paginate(5);
 
         $note = Review::where('movie_id', $movie['id'])->avg('note');
 

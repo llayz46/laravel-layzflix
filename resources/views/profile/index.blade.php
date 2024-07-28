@@ -24,6 +24,7 @@
 
                         @if($user->id === auth()->user()->id)
                             <x-button href="{{ route('settings.index') }}">Edit profile</x-button>
+                            <x-button href="{{ route('profile.friends', $user->username) }}" type="secondary">Friend list</x-button>
                         @else
                             @if(!auth()->user()->isFriendWith($user))
                                 <form action="{{ route('friend.add', $user) }}" method="post">

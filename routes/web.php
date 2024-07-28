@@ -44,18 +44,18 @@ Route::controller(SettingsController::class)->middleware('auth')->group(function
 });
 
 // Profile routes
-Route::controller(ProfileController::class)->group(function () {
-    Route::get('/profile/{user:username}', 'index')->name('profile.index'); // Profile view page
-    Route::patch('/profile', 'updateInformation')->name('profile.updateInformation'); // Update a user profile information
-    Route::post('/settings', 'updateImage')->name('profile.updateImage'); // Update a user profile image
+Route::controller(ProfileController::class)->name('profile.')->group(function () {
+    Route::get('/profile/{user:username}', 'index')->name('index'); // Profile view page
+    Route::patch('/profile', 'updateInformation')->name('updateInformation'); // Update a user profile information
+    Route::post('/settings', 'updateImage')->name('updateImage'); // Update a user profile image
 
-    Route::get('/profile/{user:username}/reviews', 'reviews')->name('profile.reviews'); // User reviews view page
-    Route::get('/profile/{user:username}/favorites', 'favorites')->name('profile.favorites'); // User favorites view page
+    Route::get('/profile/{user:username}/reviews', 'reviews')->name('reviews'); // User reviews view page
+    Route::get('/profile/{user:username}/favorites', 'favorites')->name('favorites'); // User favorites view page
+    Route::get('/profile/{user:username}/friends', 'friends')->middleware('auth')->name('friends'); // User friends view page
 });
 
 // Friend routes
-Route::controller(FriendController::class)->middleware('auth')->group(function () {
-    Route::post('/friend/{user:username}', 'add')->name('friend.add'); // Add a friend
-    Route::delete('/friend/{user:username}', 'delete')->name('friend.delete'); // Delete a friend
-    // TODO : Une listes des amis ?
+Route::controller(FriendController::class)->middleware('auth')->name('friend.')->group(function () {
+    Route::post('/friend/{user:username}', 'add')->name('add'); // Add a friend
+    Route::delete('/friend/{user:username}', 'delete')->name('delete'); // Delete a friend
 });

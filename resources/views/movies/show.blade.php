@@ -136,6 +136,12 @@
                                 <x-comment-film :review="$review" :class="!$loop->last ? 'mb-10 border-b border-gray-200 dark:border-white/10' : ''"/>
                             @endforeach
                         </div>
+
+                        @if($reviews->hasPages())
+                            <div class="border-t border-gray-200 dark:border-white/10 pt-5 mt-10">
+                                {{ $reviews->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
 

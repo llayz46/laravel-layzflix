@@ -9,18 +9,15 @@ class FriendController extends Controller
 {
     public function add(User $user)
     {
-        if ($user->isFriendWith(auth()->user())) {
+        $authUser = auth()->user();
+
+        if ($authUser->isFriendWith($user)) {
             return back()->with('error', 'You are already friends with this user.');
         }
 
         Friend::create([
-            'user_id' => auth()->id(),
+            'user_id' => $authUser->id,
             'friend_id' => $user->id,
-        ]);
-
-        Friend::create([
-            'user_id' => $user->id,
-            'friend_id' => auth()->id(),
         ]);
 
         return back()->with('success', 'Friend added successfully');
@@ -28,9 +25,8 @@ class FriendController extends Controller
 
     public function delete(User $user)
     {
-        if ($user->isFriendWith(auth()->user())) {
+        if (auth()->user()->isFriendWith($user)) {
             Friend::where('user_id', auth()->id())->where('friend_id', $user->id)->delete();
-            Friend::where('user_id', $user->id)->where('friend_id', auth()->id())->delete();
 
             return back()->with('success', 'Friend deleted successfully');
         }

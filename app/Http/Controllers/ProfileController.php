@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileAvatarRequest;
 use App\Http\Requests\UserPublicProfileRequest;
+use App\Models\Friend;
 use App\Models\Movie;
 use App\Models\Review;
 use App\Models\User;
@@ -100,6 +101,17 @@ class ProfileController extends Controller
             'movies' => $movies ?? [],
             'numberOfReviews' => $numberOfReviews,
             'numberOfMovies' => Movie::getNumberOfFavoritesMovies($user),
+        ]);
+    }
+
+    public function friends()
+    {
+        $friendsIds = Friend::where('user_id', auth()->id())->pluck('friend_id')->toArray();
+        $friends = User::whereIn('id', $friendsIds)->select('username', 'bio', 'avatar', 'id')->paginate(10);
+
+        return view('friend.index', [
+            'user' => auth()->user(),
+            'friends' => $friends,
         ]);
     }
 }

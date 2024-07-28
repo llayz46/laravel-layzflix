@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Authenticate::redirectUsing(function ($request) {
             return route('auth.login');
         });
+
+        Paginator::useTailwind();
     }
 }
