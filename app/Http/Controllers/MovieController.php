@@ -30,25 +30,19 @@ class MovieController extends Controller
         ]);
     }
 
-    public function show(String $media, String $mediaType): View
+    public function show(string $media, string $mediaType): View
     {
         $TmdbResult = new TmdbResult();
         $response = $TmdbResult->show($media, $mediaType);
 
         $response['credits'] = $this->getCreditsByMovieId($response['id'], $mediaType);
 
-        $director = '';
-        if ($mediaType === 'movie') {
-            $directorFromCast = array_filter($response['credits']['crew'], function ($crew) {
-                return $crew['job'] === 'Director';
-            });
-            $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
-        } else {
-            $directorFromCast = array_filter($response['credits']['crew'], function ($crew) {
-                return $crew['job'] === 'Producer';
-            });
-            $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
-        }
+
+        $getProdOrDir = $mediaType === 'movie' ? 'Director' : 'Producer';
+        $directorFromCast = array_filter($response['credits']['crew'], function ($crew) use ($getProdOrDir) {
+            return $crew['job'] === $getProdOrDir;
+        });
+        $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
 
         $favorites = User::where('favorite_films', 'like', "%{$response['id']}%")->count();
 
@@ -65,13 +59,13 @@ class MovieController extends Controller
         ]);
     }
 
-    public function movieToFavorite(String $movie)
+    public function movieToFavorite(string $movie)
     {
         $user = request()->user();
 
         $favoriteFilms = json_decode($user->favorite_films, true);
 
-        if(!is_array($favoriteFilms)) {
+        if (!is_array($favoriteFilms)) {
             $favoriteFilms = [];
         }
 
@@ -118,7 +112,7 @@ class MovieController extends Controller
 //        return $movie;
 //    }
 
-    protected function getCreditsByMovieId(String $movie, String $mediaType): array
+    protected function getCreditsByMovieId(string $movie, string $mediaType): array
     {
         $response = Http::get("https://api.themoviedb.org/3/{$mediaType}/{$movie}/credits", [
             'api_key' => config('services.tmdb.token')

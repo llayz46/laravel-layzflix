@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\TmdbResult;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
@@ -18,14 +19,18 @@ class HomeController extends Controller
         $topRatedMovies = [];
 
         foreach ($topRatedMoviesFromReviews as $topRatedMovie) {
-            $response = Http::get('https://api.themoviedb.org/3/movie/' . $topRatedMovie->movie_id, [
-                'api_key' => config('services.tmdb.token'),
-            ])->json();
+            $TmdbResult = new TmdbResult();
+            $response = $TmdbResult->show($topRatedMovie->movie_id, null);
 
-            $topRatedMovie->title = $response['title'];
+            $topRatedMovie->normalized_title = $response['normalized_title'];
             $topRatedMovie->poster_path = $response['poster_path'];
             $topRatedMovie->id = $response['id'];
-            $topRatedMovie->release_date = $response['release_date'];
+            $topRatedMovie->media_type = $response['media_type'];
+            if ($response['media_type'] === 'movie') {
+                $topRatedMovie->release_date = $response['release_date'];
+            } else {
+                $topRatedMovie->first_air_date = $response['first_air_date'];
+            }
 
             $topRatedMovies[] = $topRatedMovie;
         }

@@ -22,7 +22,6 @@
                 @else
                     <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">@if($director) {{ $director['name'] }} @else No director... @endif</a>
                 @endif
-{{--                TODO : systeme de navigation par réalisateur (ou company, ex: paramount) --}}
             </div>
         </li>
         <li>

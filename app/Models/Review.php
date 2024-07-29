@@ -32,9 +32,9 @@ class Review extends Model
         $movies = [];
 
         foreach ($movieIds as $movieId) {
-            $response = Http::get('https://api.themoviedb.org/3/movie/' . $movieId, [
-                'api_key' => config('services.tmdb.token'),
-            ])->json();
+            $TmdbResult = new TmdbResult();
+            $response = $TmdbResult->show($movieId, 'movie');
+
             $movies[$movieId] = $response;
         }
 

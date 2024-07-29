@@ -2,7 +2,7 @@
 
 <div {{ $attributes->merge(['class' => "flex"]) }}>
     @if($review['movie']['poster_path'])
-        <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'movie' => \Illuminate\Support\Str::slug($review['movie']['title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity">
+        <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'mediaType' => $review['movie']['media_type'], 'media' => \Illuminate\Support\Str::slug($review['movie']['normalized_title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity">
             <img class="shadow h-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 w-32 object-cover" src="https://image.tmdb.org/t/p/original{{ $review['movie']['poster_path'] }}" alt="">
         </a>
     @else

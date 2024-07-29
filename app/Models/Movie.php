@@ -23,11 +23,10 @@ class Movie extends Model
             $movies = [];
 
             foreach ($favoriteFilms as $movie) {
-                $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}", [
-                    'api_key' => config('services.tmdb.token'),
-                ]);
+                $TmdbResult = new TmdbResult();
+                $response = $TmdbResult->show($movie, 'movie');
 
-                $movies[] = $response->json();
+                $movies[] = $response;
             }
 
             return $movies;

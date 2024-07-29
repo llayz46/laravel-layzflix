@@ -1,7 +1,6 @@
 <x-layout title="Edit my profile">
     <x-header/>
 
-{{-- TODO : ajouter une section : mon profile public avec la description, mes stats : ex : nb commentaires, etc..--}}
     <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
         <h1 class="text-3xl font-bold leading-tight tracking-tight text-title pt-2">Public profile</h1>
         <section class="container mx-auto max-w-7xl px-6 lg:px-8">

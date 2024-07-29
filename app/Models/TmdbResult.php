@@ -49,14 +49,26 @@ class TmdbResult extends Model
 
         $results = $response->json();
 
-        return $this->normalizeContent($results);
+        return $this->normalizeContent($results, true);
     }
 
     public function show($media, $mediaType)
     {
-        $response = Http::get("https://api.themoviedb.org/3/{$mediaType}/{$media}", [
-            'api_key' => config('services.tmdb.token'),
-        ]);
+        if (!$mediaType) {
+            $response = Http::get("https://api.themoviedb.org/3/tv/{$media}", [
+                'api_key' => config('services.tmdb.token'),
+            ]);
+
+            if (!$response->json()['success']) {
+                $response = Http::get("https://api.themoviedb.org/3/movie/{$media}", [
+                    'api_key' => config('services.tmdb.token'),
+                ]);
+            }
+        } else {
+            $response = Http::get("https://api.themoviedb.org/3/{$mediaType}/{$media}", [
+                'api_key' => config('services.tmdb.token'),
+            ]);
+        }
 
         $results = $response->json();
 
