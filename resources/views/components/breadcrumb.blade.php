@@ -17,7 +17,11 @@
                 <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
-                <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">@if($director) {{ $director['name'] }} @else No director... @endif</a>
+                @if($movie['media_type'] === 'movie')
+                    <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">@if($director) {{ $director['name'] }} @else No director... @endif</a>
+                @else
+                    <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">@if($director) {{ $director['name'] }} @else No director... @endif</a>
+                @endif
 {{--                TODO : systeme de navigation par réalisateur (ou company, ex: paramount) --}}
             </div>
         </li>
@@ -27,8 +31,8 @@
                     <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
                 <form method="GET" action="{{ route('movies.search') }}">
-                    <input type="hidden" name="search" value="{{ $movie['title'] }}">
-                    <button class="ml-4 text-sm font-medium text-body hover:text-accent-300">{{ Str::title($movie['title']) }}</button>
+                    <input type="hidden" name="search" value="{{ $movie['normalized_title'] }}">
+                    <button class="ml-4 text-sm font-medium text-body hover:text-accent-300">{{ Str::title($movie['normalized_title']) }}</button>
                 </form>
             </div>
         </li>

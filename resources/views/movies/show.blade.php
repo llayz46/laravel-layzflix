@@ -1,4 +1,4 @@
-<x-layout :title="Str::title($movie['title'])">
+<x-layout :title="Str::title($movie['normalized_title'])">
     <x-header class="dark:shadow-gray-500/5"/>
 
     <div class="my-8 sm:my-12 mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -11,7 +11,7 @@
                 <div class="lg:col-span-4 lg:row-end-1">
                     @if($movie['poster_path'])
                         <div class="overflow-hidden rounded-lg bg-gray-100">
-                            <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="object-cover size-full rounded-lg border border-gray-200 dark:border-neutral-800 shadow" alt="Movie image of : {{ $movie['title'] }}">
+                            <img src="https://image.tmdb.org/t/p/original{{ $movie['poster_path'] }}" class="object-cover size-full rounded-lg border border-gray-200 dark:border-neutral-800 shadow" alt="Movie image of : {{ $movie['normalized_title'] }}">
                         </div>
                     @else
                         <div class="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
@@ -22,7 +22,7 @@
 
                 <div class="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:ml-0 lg:max-w-none">
                     <div class="flex flex-col-reverse">
-                        <h1 class="mt-4 text-2xl font-bold tracking-tight text-title sm:text-3xl">{{ Str::title($movie['title']) }}</h1>
+                        <h1 class="mt-4 text-2xl font-bold tracking-tight text-title sm:text-3xl">{{ Str::title($movie['normalized_title']) }}</h1>
 
                         <div>
                             <h3 class="sr-only">Reviews</h3>
@@ -46,8 +46,13 @@
                     <p class="mt-6 text-body">@if($movie['overview']) {{ $movie['overview'] }} @else We couldn't find the synopsis... @endif</p>
 
                     <div class="mt-4 space-y-2">
-                        <p class="text-sm text-body"><strong>Director</strong> : @if($director) {{ $director['name'] }} @else No info... @endif</p>
-                        <p class="text-sm text-body"><strong>Release date</strong> : @if($movie['release_date']) <time datetime="{{ $movie['release_date'] }}">{{ \Carbon\Carbon::createFromDate($movie['release_date'])->toFormattedDateString() }}</time> @else No info... @endif</p>
+                        @if($movie['media_type'] === 'movie')
+                            <p class="text-sm text-body"><strong>Director</strong> : @if($director) {{ $director['name'] }} @else No info... @endif</p>
+                            <p class="text-sm text-body"><strong>Release date</strong> : @if($movie['release_date']) <time datetime="{{ $movie['release_date'] }}">{{ \Carbon\Carbon::createFromDate($movie['release_date'])->toFormattedDateString() }}</time> @else No info... @endif</p>
+                        @else
+                            <p class="text-sm text-body"><strong>Producer</strong> : @if($director) {{ $director['name'] }} @else No info... @endif</p>
+                            <p class="text-sm text-body"><strong>First episode</strong> : @if($movie['first_air_date']) <time datetime="{{ $movie['first_air_date'] }}">{{ \Carbon\Carbon::createFromDate($movie['first_air_date'])->toFormattedDateString() }}</time> @else No info... @endif</p>
+                        @endif
                     </div>
 
                     @guest
@@ -63,7 +68,7 @@
                     @endguest
 
                     @auth
-                        <form action="{{ route('movies.favorite', ['id' => $movie['id'], 'movie' => \Illuminate\Support\Str::slug($movie['title'])]) }}" method="post" class="isolate inline-flex rounded-md shadow-sm mt-6">
+                        <form action="{{ route('movies.favorite', ['id' => $movie['id'], 'movie' => \Illuminate\Support\Str::slug($movie['normalized_title'])]) }}" method="post" class="isolate inline-flex rounded-md shadow-sm mt-6">
                             @csrf
                             <input type="hidden" name="movie_id" value="{{ $movie['id'] }}">
                             <button class="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-200/50 dark:hover:bg-gray-50/5 focus:z-10">

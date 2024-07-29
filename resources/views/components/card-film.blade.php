@@ -1,6 +1,6 @@
 @props(['movie'])
 
-<a href="{{ route('movies.show', ['id' => $movie['id'], 'movie' => \Illuminate\Support\Str::slug($movie['title'])]) }}" {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }}>
+<a href="{{ route('movies.show', ['id' => $movie['id'], 'mediaType' => $movie['media_type'], 'media' => \Illuminate\Support\Str::slug($movie['normalized_title'])]) }}" {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }}>
     @if($movie['poster_path'])
         <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity h-full w-full" alt="">
     @else
@@ -13,9 +13,11 @@
         </div>
     @endif
     <div class="hidden group-hover:block position absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <h3 class="text-lg font-semibold text-title text-center">{{ $movie['title'] }}</h3>
+        <h3 class="text-lg font-semibold text-title text-center">{{ $movie['normalized_title'] }}</h3>
         @if(isset($movie['release_date']))
             <p class="mt-1 text-sm text-body">{{ $movie['release_date'] }}</p>
+        @elseif(isset($movie['first_air_date']))
+            <p class="mt-1 text-sm text-body">{{ $movie['first_air_date'] }}</p>
         @endif
     </div>
 </a>

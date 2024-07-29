@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\TmdbResult;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -16,19 +17,9 @@ class MovieController extends Controller
         $query = $request->input('search');
         $page = $request->input('page', 1);
 
-//        $response = Http::get('https://api.themoviedb.org/3/search/movie', [
-//            'api_key' => config('services.tmdb.token'),
-//            'query' => $query,
-//            'page' => $page,
-//        ]);
+        $TmdbResult = new TmdbResult();
+        $results = $TmdbResult->search($query);
 
-        $response = Http::get('https://api.themoviedb.org/3/search/multi', [
-            'api_key' => config('services.tmdb.token'),
-            'query' => $query,
-            'page' => $page,
-        ]);
-
-        $results = $response->json();
         $totalPages = $results['total_pages'];
 
         return view('movies.browse', [
@@ -39,28 +30,34 @@ class MovieController extends Controller
         ]);
     }
 
-    public function show(String $movie)
+    public function show(String $media, String $mediaType): View
     {
-        $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}", [
-            'api_key' => config('services.tmdb.token'),
-        ]);
+        $TmdbResult = new TmdbResult();
+        $response = $TmdbResult->show($media, $mediaType);
 
-        $movie = $response->json();
-        $movie['credits'] = $this->getCreditsByMovieId($movie['id']);
+        $response['credits'] = $this->getCreditsByMovieId($response['id'], $mediaType);
 
-        $directorFromCast = array_filter($movie['credits']['crew'], function ($crew) {
-            return $crew['job'] === 'Director';
-        });
-        $director = (new Collection($directorFromCast))->first();
+        $director = '';
+        if ($mediaType === 'movie') {
+            $directorFromCast = array_filter($response['credits']['crew'], function ($crew) {
+                return $crew['job'] === 'Director';
+            });
+            $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
+        } else {
+            $directorFromCast = array_filter($response['credits']['crew'], function ($crew) {
+                return $crew['job'] === 'Producer';
+            });
+            $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
+        }
 
-        $favorites = User::where('favorite_films', 'like', "%{$movie['id']}%")->count();
+        $favorites = User::where('favorite_films', 'like', "%{$response['id']}%")->count();
 
-        $reviews = Review::with('user:id,username,avatar')->where('movie_id', $movie['id'])->paginate(5);
+        $reviews = Review::with('user:id,username,avatar')->where('movie_id', $response['id'])->paginate(5);
 
-        $note = Review::where('movie_id', $movie['id'])->avg('note');
+        $note = Review::where('movie_id', $response['id'])->avg('note');
 
         return view('movies.show', [
-            'movie' => $movie,
+            'movie' => $response,
             'director' => $director,
             'favorites' => $favorites,
             'reviews' => $reviews,
@@ -121,9 +118,9 @@ class MovieController extends Controller
 //        return $movie;
 //    }
 
-    protected function getCreditsByMovieId(String $movie): array
+    protected function getCreditsByMovieId(String $movie, String $mediaType): array
     {
-        $response = Http::get("https://api.themoviedb.org/3/movie/{$movie}/credits", [
+        $response = Http::get("https://api.themoviedb.org/3/{$mediaType}/{$movie}/credits", [
             'api_key' => config('services.tmdb.token')
         ]);
 
