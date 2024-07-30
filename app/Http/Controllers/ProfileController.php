@@ -92,13 +92,20 @@ class ProfileController extends Controller
 
     public function favorites(User $user): View
     {
+        $page = request()->get('page', 1);
+
         $movies = Movie::favorites($user);
+        $movies = collect($movies)->forPage($page, 10);
+
+        $totalPages = ceil(count($movies) / 10);
 
         $numberOfReviews = Review::where('user_id', $user->id)->count();
 
         return view('profile.favorites', [
             'user' => $user,
             'movies' => $movies ?? [],
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
             'numberOfReviews' => $numberOfReviews,
             'numberOfMovies' => Movie::getNumberOfFavoritesMovies($user),
         ]);

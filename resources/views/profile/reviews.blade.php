@@ -4,7 +4,7 @@
     <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
         <x-profile-header :user="$user" :numberOfMovies="$movies" :numberOfReviews="$numberOfReviews"/>
 
-        <div class="mt-6">
+        <div class="mt-6 w-full">
             <div class="flex justify-between">
                 <div>
                     @if(count($reviews) > 0)
@@ -23,6 +23,9 @@
                         @foreach($reviews as $review)
                             <x-review-flim :review="$review" class="pb-5 border-b border-gray-200 dark:border-white/10"/>
                         @endforeach
+                    </div>
+                    <div class="mt-5">
+                        {{ $reviews->links() }}
                     </div>
                 </div>
             @endif

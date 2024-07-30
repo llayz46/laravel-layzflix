@@ -49,6 +49,7 @@ class TmdbResult extends Model
         $response = Http::get('https://api.themoviedb.org/3/search/multi', [
             'query' => $query,
             'api_key' => config('services.tmdb.token'),
+            'page' => request('page', 1),
         ]);
 
         $results = $response->json();

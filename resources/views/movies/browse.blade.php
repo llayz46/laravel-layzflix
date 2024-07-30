@@ -16,15 +16,20 @@
                     </div>
                 @endif
             </div>
-            @if($response['total_results'] > 0)
+
+            @if($totalPages > 0)
                 <nav class="w-full flex items-center justify-between border-t border-gray-200 dark:border-white/10 px-4 py-3 sm:px-6 mt-4" aria-label="Pagination">
-                    <div class="flex flex-1 justify-between">
+                    <div class="flex w-full">
                         @if($currentPage > 1)
-                            <a href="{{ route('movies.search', ['search' => $query, 'page' => $currentPage - 1]) }}" class="relative inline-flex items-center rounded-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-50/5 focus-visible:outline-offset-0">Previous</a>
+                            <div class="ml-0 mr-auto">
+                                <a href="{{ route('movies.search', ['search' => $query, 'page' => $currentPage - 1]) }}" class="relative inline-flex items-center rounded-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-50/5 focus-visible:outline-offset-0">Previous</a>
+                            </div>
                         @endif
 
                         @if($currentPage < $totalPages)
-                            <a href="{{ route('movies.search', ['search' => $query, 'page' => $currentPage + 1]) }}" class="relative ml-3 inline-flex items-center rounded-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-50/5 focus-visible:outline-offset-0">Next</a>
+                            <div class="mr-0 ml-auto">
+                                <a href="{{ route('movies.search', ['search' => $query, 'page' => $currentPage + 1]) }}" class="relative ml-3 inline-flex items-center rounded-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 hover:bg-gray-50/5 focus-visible:outline-offset-0">Next</a>
+                            </div>
                         @endif
                     </div>
                 </nav>
