@@ -10,7 +10,7 @@
         @break
 
     @case('danger')
-        <button {{ $attributes->merge(['class' => 'inline-flex items-center rounded-md bg-transparent px-2.5 py-1 text-sm font-semibold text-title shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-red-50/50 dark:ring-white/10 dark:hover:bg-red-50/5 transition-colors']) }}>{{ $slot }}</button>
+        <button {{ $attributes->merge(['class' => 'inline-flex items-center rounded-md bg-transparent px-2.5 py-1 text-sm font-semibold text-title shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-red-50/50 dark:ring-white/10 dark:hover:bg-red-700/5 transition-colors']) }}>{{ $slot }}</button>
         @break
 
     @case('submit')

@@ -13,7 +13,7 @@
                 <x-button type="secondary" href="{{ route('profile.index', $user->username) }}" class="h-fit mt-auto">Back to profile</x-button>
             </div>
             <div class="mt-2 border-t border-gray-200 dark:border-white/10 pt-5">
-                <ul role="list" class="divide-y divide-gray-100">
+                <ul role="list" class="divide-y divide-gray-200 dark:divide-white/10">
                     @foreach($friends as $friend)
                         <li class="flex justify-between gap-x-6 py-5">
                             <div class="flex min-w-0 gap-x-4">

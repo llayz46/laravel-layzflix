@@ -12,18 +12,57 @@
                 </a>
             </div>
         </li>
-        <li>
-            <div class="flex items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                @if($movie['media_type'] === 'movie')
-                    <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">@if($director) {{ $director['name'] }} @else No director... @endif</a>
-                @else
-                    <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">@if($director) {{ $director['name'] }} @else No director... @endif</a>
-                @endif
-            </div>
-        </li>
+        @if($movie['media_type'] === 'movie')
+            @if($director)
+                @foreach($director as $dir)
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                            </svg>
+                            <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">{{ $dir }}</a>
+                        </div>
+                    </li>
+                    @if($loop->index === 5)
+                        @break
+                    @endif
+                @endforeach
+            @else
+                <li>
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                        </svg>
+                        <button class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">No info</button>
+                    </div>
+                </li>
+            @endif
+        @else
+            @if($director)
+                @foreach($director as $dir)
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                            </svg>
+                            <a class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">{{ $dir }}</a>
+                        </div>
+                    </li>
+                    @if($loop->index === 5)
+                        @break
+                    @endif
+                @endforeach
+            @else
+                <li>
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                        </svg>
+                        <button class="ml-4 text-sm font-medium text-body hover:text-accent-300 cursor-not-allowed">No info</button>
+                    </div>
+                </li>
+            @endif
+        @endif
         <li>
             <div class="flex items-center">
                 <svg class="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">

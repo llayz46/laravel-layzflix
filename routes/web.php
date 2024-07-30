@@ -19,7 +19,7 @@ Route::controller(ReviewController::class)->name('review.')->prefix('/review')->
 });
 
 // Movies routes
-Route::controller(MovieController::class)->name('movies.')->prefix('/movies')->group(function () {
+Route::controller(MovieController::class)->name('movies.')->prefix('/medias')->group(function () {
     Route::get('/', 'search')->name('search'); // Browse movies page
     Route::get('/{id}-{mediaType}-{media}', 'show')->name('show'); // Show a movie page
     Route::post('/{id}-{mediaType}-{media}', 'mediaToFavorite')->name('favorite'); // Add a movie to favorite

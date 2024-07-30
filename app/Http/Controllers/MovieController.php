@@ -38,11 +38,21 @@ class MovieController extends Controller
 
         $response['credits'] = $this->getCreditsByMovieId($response['id'], $mediaType);
 
-        $getProdOrDir = $mediaType === 'movie' ? 'Director' : 'Producer';
-        $directorFromCast = array_filter($response['credits']['crew'], function ($crew) use ($getProdOrDir) {
-            return $crew['job'] === $getProdOrDir;
-        });
-        $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
+        $director = null;
+        if ($mediaType === 'movie') {
+            $directorFromCast = array_filter($response['credits']['crew'], function ($crew) {
+                return $crew['job'] === 'Director';
+            });
+
+//            $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
+            foreach ($directorFromCast as $dir) {
+                $director[] = $dir['name'];
+            }
+        } else {
+            foreach ($response['created_by'] as $creator) {
+                $director[] = $creator['name'];
+            }
+        }
 
         $favorites = User::where('favorite_media', 'like', "%{$response['id']}%")->count();
 
