@@ -9,7 +9,7 @@
                  @else
                      src="{{ auth()->user()->avatar ? auth()->user()->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. auth()->user()->username .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}"
                  @endif
-                 alt="User avatar" >
+                 alt="User avatar">
         </a>
     @else
         <img {{ $attributes->merge(['class' => 'group-hover:scale-105 transition']) }}
@@ -18,7 +18,7 @@
              @else
                  src="{{ auth()->user()->avatar ? auth()->user()->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. auth()->user()->username .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}"
              @endif
-             alt="User avatar" >
+             alt="User avatar">
     @endif
 @endauth
 
@@ -27,11 +27,11 @@
         <a href="{{ route('profile.index', $user->username) }}" class="group">
             <img {{ $attributes->merge(['class' => 'group-hover:scale-105 transition']) }}
                  src="{{ $user->avatar ? $user->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. $user->username .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}"
-                 alt="User avatar" >
+                 alt="User avatar">
         </a>
     @else
         <img {{ $attributes }}
              src="{{ $user->avatar ? $user->imageUrl() : 'https://ui-avatars.com/api/?background=ebe6ef&name='. $user->username .'&color=ea546c&font-size=0.5&semibold=true&format=svg' }}"
-             alt="User avatar" >
+             alt="User avatar">
     @endif
 @endguest

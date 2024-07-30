@@ -1,10 +1,10 @@
 @props(['review'])
 
-<div {{ $attributes->merge(['class' => "flex space-x-4 text-sm text-body"]) }}>
-    <div>
+<div {{ $attributes->merge(['class' => "flex space-x-4 text-sm text-body w-full"]) }}>
+    <div class="block w-fit min-w-10">
         <x-user-avatar class="h-10 w-10 rounded-full bg-gray-100" :user="$review['user']"/>
     </div>
-    <div class="flex-none pb-10">
+    <div class="block pb-10">
         <h3 class="font-medium text-title">{{ $review['user']['username'] }}</h3>
         <p><time datetime="{{ $review['created_at'] }}">{{ \Carbon\Carbon::createFromDate($review['created_at'])->toFormattedDateString() }}</time></p>
 
