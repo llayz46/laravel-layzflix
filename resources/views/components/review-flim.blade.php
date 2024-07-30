@@ -7,7 +7,7 @@
         </a>
     @else
         <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'mediaType' => $review['movie']['media_type'], 'media' => \Illuminate\Support\Str::slug($review['movie']['normalized_title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity">
-            <img class="shadow h-full w-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 sm:w-32 object-cover" src="{{ asset('movie_image_placeholder.webp') }}" alt="Sample image, we don't found the movie image">
+            <img class="shadow h-full w-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 sm:w-32 object-cover" src="{{ asset('images/movie_image_placeholder.webp') }}" alt="Sample image, we don't found the movie image">
         </a>
     @endif
     <div>
