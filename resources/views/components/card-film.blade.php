@@ -3,7 +3,7 @@
 <a href="{{ route('movies.show', ['id' => $movie['id'], 'mediaType' => $movie['media_type'], 'media' => \Illuminate\Support\Str::slug($movie['normalized_title'])]) }}" {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }}>
     <span class="sr-only">Link to {{ $movie['normalized_title'] }}</span>
     @if($movie['poster_path'])
-        <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity h-full w-full" alt="">
+        <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity h-full w-full" alt="Poster of : {{ $movie['normalized_title'] }}" sizes="(max-width: 1300px) 300px" loading="lazy">
     @else
         <div role="status" class="animate-pulse md:flex md:items-center h-full">
             <div class="flex items-center justify-center w-full h-full bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
