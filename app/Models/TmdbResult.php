@@ -28,15 +28,19 @@ class TmdbResult extends Model
                 return 'No results found';
             }
         } else {
-            $results['normalized_title'] = $results['title'] ?? $results['name'];
-
-            if(isset($results['release_date'])) {
-                $results['media_type'] = 'movie';
+            if (isset($results['success']) && !$results['success']) {
+                return 'No results found';
             } else {
-                $results['media_type'] = 'tv';
-            }
+                $results['normalized_title'] = $results['title'] ?? $results['name'];
 
-            return $results;
+                if(isset($results['release_date'])) {
+                    $results['media_type'] = 'movie';
+                } else {
+                    $results['media_type'] = 'tv';
+                }
+
+                return $results;
+            }
         }
     }
 

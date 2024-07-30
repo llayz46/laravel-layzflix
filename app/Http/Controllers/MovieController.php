@@ -36,6 +36,10 @@ class MovieController extends Controller
         $TmdbResult = new TmdbResult();
         $response = $TmdbResult->show($media, $mediaType);
 
+        if ($response === 'No results found') {
+            abort(404);
+        }
+
         $response['credits'] = $this->getCreditsByMovieId($response['id'], $mediaType);
 
         $director = null;
@@ -44,7 +48,6 @@ class MovieController extends Controller
                 return $crew['job'] === 'Director';
             });
 
-//            $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
             foreach ($directorFromCast as $dir) {
                 $director[] = $dir['name'];
             }
@@ -96,26 +99,6 @@ class MovieController extends Controller
 
         return back()->with('success', 'Movie added to favorites');
     }
-
-//    private function getMovieGenreNameByGenreId(Array $movie): array
-//    {
-//        $response = Http::get('https://api.themoviedb.org/3/genre/movie/list', [
-//            'api_key' => config('services.tmdb.token'),
-//        ]);
-//
-//        $genres = $response['genres'];
-//        $genreIds = $movie['genre_ids'];
-//
-//        foreach ($genreIds as $genreId) {
-//            foreach ($genres as $genre) {
-//                if ($genre['id'] === $genreId) {
-//                    $movie['genre_names'][] = $genre['name'];
-//                }
-//            }
-//        }
-//
-//        return $movie;
-//    }
 
     protected function getCreditsByMovieId(string $movie, string $mediaType): array
     {
