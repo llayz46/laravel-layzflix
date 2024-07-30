@@ -6,7 +6,7 @@
     </div>
     <div class="min-w-0 flex-1">
         <form action="{{ route('review.add') }}" class="relative" method="post">
-            @php $userReview = auth()->user()->reviews()->where('movie', $movie)->first() @endphp
+            @php $userReview = auth()->user()->reviews()->whereJsonContains('movie', ['id' => (string)$movie['id']])->first() @endphp
             @csrf
             @error('note')
                 <p class="mb-2 text-sm text-red-500">{{ $message }}</p>
