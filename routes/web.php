@@ -22,7 +22,7 @@ Route::controller(ReviewController::class)->name('review.')->prefix('/review')->
 Route::controller(MovieController::class)->name('movies.')->prefix('/movies')->group(function () {
     Route::get('/', 'search')->name('search'); // Browse movies page
     Route::get('/{id}-{mediaType}-{media}', 'show')->name('show'); // Show a movie page
-    Route::post('/{id}-{movie}', 'movieToFavorite')->name('favorite'); // Add a movie to favorite
+    Route::post('/{id}-{mediaType}-{media}', 'mediaToFavorite')->name('favorite'); // Add a movie to favorite
 });
 
 // Auth routes

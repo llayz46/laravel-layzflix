@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 
 class ReviewController extends Controller
@@ -15,15 +16,19 @@ class ReviewController extends Controller
 
         $data['user_id'] = auth()->id();
 
-        if (auth()->user()->reviews()->where('movie_id', $data['movie_id'])->exists()) {
-            $review = auth()->user()->reviews()->where('movie_id', $data['movie_id'])->first();
+        if (auth()->user()->reviews()->where('movie', $data['movie']['id'])->exists()) {
+            $review = auth()->user()->reviews()->where('movie', $data['movie']['id'])->first();
             $review->update($data);
+
+            auth()->user()->userLevel();
 
             return back()->with('success', 'Review updated successfully.');
         }
 
         $review = Review::create($data);
         $review->save();
+
+        auth()->user()->userLevel();
 
         return back()->with('success', 'Review added successfully.');
     }
@@ -35,6 +40,8 @@ class ReviewController extends Controller
         }
 
         $review->delete();
+
+        auth()->user()->userLevel();
 
         return back()->with('success', 'Review deleted successfully.');
     }

@@ -17,8 +17,12 @@ class Review extends Model
     protected $fillable = [
         'comment',
         'note',
-        'movie_id',
+        'movie',
         'user_id',
+    ];
+
+    protected $casts = [
+        'movie' => 'array',
     ];
 
     public function user(): BelongsTo
@@ -28,18 +32,19 @@ class Review extends Model
 
     public static function addMovieToReview($reviews)
     {
-        $movieIds = $reviews->pluck('movie_id')->unique();
-        $movies = [];
+        $medias = $reviews->pluck('movie')->unique();
 
-        foreach ($movieIds as $movieId) {
+        $mediasContainer = [];
+
+        foreach ($medias as $media) {
             $TmdbResult = new TmdbResult();
-            $response = $TmdbResult->show($movieId, 'movie');
+            $response = $TmdbResult->show($media['id'], $media['mediaType']);
 
-            $movies[$movieId] = $response;
+            $mediasContainer[$media['id']] = $response;
         }
 
-        $reviews->each(function ($review) use ($movies) {
-            $review->movie = $movies[$review->movie_id] ?? null;
+        $reviews->each(function ($review) use ($mediasContainer) {
+            $review->movie = $mediasContainer[$review->movie['id']] ?? null;
         });
     }
 }

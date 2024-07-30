@@ -10,8 +10,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $topRatedMoviesFromReviews = Review::groupBy('movie_id')
-            ->selectRaw('movie_id, AVG(note) as average_note')
+//        whereJsonContains('movie->id', (string)$response['id'])
+//        ->selectRaw('movie_id, AVG(note) as average_note')
+        $topRatedMoviesFromReviews = Review::groupBy('movie')
+            ->selectRaw('movie, avg(note) as average_note')
             ->orderBy('average_note', 'desc')
             ->take(3)
             ->get();
@@ -20,7 +22,7 @@ class HomeController extends Controller
 
         foreach ($topRatedMoviesFromReviews as $topRatedMovie) {
             $TmdbResult = new TmdbResult();
-            $response = $TmdbResult->show($topRatedMovie->movie_id, null);
+            $response = $TmdbResult->show($topRatedMovie->movie['id'], $topRatedMovie->movie['mediaType']);
 
             $topRatedMovie->normalized_title = $response['normalized_title'];
             $topRatedMovie->poster_path = $response['poster_path'];
@@ -31,13 +33,12 @@ class HomeController extends Controller
             } else {
                 $topRatedMovie->first_air_date = $response['first_air_date'];
             }
+            unset($topRatedMovie->movie);
 
             $topRatedMovies[] = $topRatedMovie;
         }
 
         $lastReviews = Review::orderBy('created_at', 'desc')->with('user:id,username,avatar')->take(3)->get();
-
-        Review::addMovieToReview($lastReviews);
 
         return view('home', [
             'topRatedMovies' => $topRatedMovies,

@@ -18,7 +18,9 @@ class ReviewRequest extends FormRequest
         return [
             'comment' => ['required', 'string', 'max:255', 'min:3'],
             'note' => ['required', 'numeric', 'min:1', 'max:5'],
-            'movie_id' => ['required'],
+            'movie.id' => ['required', 'integer'],
+            'movie.title' => ['required', 'string'],
+            'movie.mediaType' => ['required', 'string'],
         ];
     }
 

@@ -6,12 +6,12 @@
             <img class="shadow h-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 w-32 object-cover" src="https://image.tmdb.org/t/p/original{{ $review['movie']['poster_path'] }}" alt="">
         </a>
     @else
-        <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'movie' => \Illuminate\Support\Str::slug($review['movie']['title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity">
+        <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'mediaType' => $review['movie']['media_type'], 'media' => \Illuminate\Support\Str::slug($review['movie']['normalized_title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity">
             <img class="shadow h-full w-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 sm:w-32 object-cover" src="{{ asset('movie_image_placeholder.webp') }}" alt="Sample image, we don't found the movie image">
         </a>
     @endif
     <div>
-        <h4 class="text-lg font-bold text-title">{{ $review['movie']['title'] }}</h4>
+        <h4 class="text-lg font-bold text-title">{{ $review['movie']['normalized_title'] }}</h4>
         <div class="flex gap-4 items-center">
             <div class="my-2 flex items-center">
                 @for($i =0; $i < $review['note']; $i++)

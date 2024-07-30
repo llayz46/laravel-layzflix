@@ -18,10 +18,10 @@ class ProfileController extends Controller
 {
     public function index(User $user): View
     {
-        $movies = Movie::favorites($user, true);
+        $movies = Movie::favorites($user, 5);
 
         if($user->reviews()) {
-            $lastReviews = $user->reviews()->orderBy('created_at', 'desc')->take(4)->get(['comment', 'note', 'created_at', 'movie_id']);
+            $lastReviews = $user->reviews()->orderBy('created_at', 'desc')->take(4)->get(['comment', 'note', 'created_at', 'movie']);
 
             Review::addMovieToReview($lastReviews);
         }

@@ -52,14 +52,14 @@ class TmdbResult extends Model
         return $this->normalizeContent($results, true);
     }
 
-    public function show($media, $mediaType)
+    public function show($media, $mediaType = null)
     {
         if (!$mediaType) {
             $response = Http::get("https://api.themoviedb.org/3/tv/{$media}", [
                 'api_key' => config('services.tmdb.token'),
             ]);
 
-            if (!$response->json()['success']) {
+            if (isset($response->json()['success']) && !$response->json()['success'] || !$response->json()['id']) {
                 $response = Http::get("https://api.themoviedb.org/3/movie/{$media}", [
                     'api_key' => config('services.tmdb.token'),
                 ]);

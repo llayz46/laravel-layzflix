@@ -1,4 +1,4 @@
-@props(['movieId'])
+@props(['movie'])
 
 <div class="flex items-start space-x-4">
     <div class="flex-shrink-0">
@@ -6,7 +6,7 @@
     </div>
     <div class="min-w-0 flex-1">
         <form action="{{ route('review.add') }}" class="relative" method="post">
-            @php $userReview = auth()->user()->reviews()->where('movie_id', $movieId)->first() @endphp
+            @php $userReview = auth()->user()->reviews()->where('movie', $movie)->first() @endphp
             @csrf
             @error('note')
                 <p class="mb-2 text-sm text-red-500">{{ $message }}</p>
@@ -43,7 +43,9 @@
                         <input type="hidden" name="note" id="note" value="0" required data-rating-target="note">
                     </div>
                 </div>
-                <input type="hidden" name="movie_id" id="movie_id" value="{{ $movieId }}">
+                <input type="hidden" name="movie[id]" id="movie[id]" value="{{ $movie['id'] }}">
+                <input type="hidden" name="movie[title]" id="movie[title]" value="{{ $movie['normalized_title'] }}">
+                <input type="hidden" name="movie[mediaType]" id="movie[mediaType]" value="{{ $movie['media_type'] }}">
                 <div class="flex-shrink-0">
                     <x-button type="submit">@if($userReview) Update @else Post @endif</x-button>
                 </div>

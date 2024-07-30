@@ -49,6 +49,8 @@
     </div>
 
     <div class="sm:mt-4 hidden sm:block @if(!$numberOfReviews && !$numberOfMovies) sm:hidden @endif">
+        <x-profile-level-badge :level="$user->level"/>
+
         @if($numberOfMovies)
             <x-badge tag="span">{{ $numberOfMovies }} Favorite movie(s)</x-badge>
         @endif

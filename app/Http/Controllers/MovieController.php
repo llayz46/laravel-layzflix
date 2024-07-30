@@ -7,6 +7,7 @@ use App\Models\TmdbResult;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
@@ -37,18 +38,17 @@ class MovieController extends Controller
 
         $response['credits'] = $this->getCreditsByMovieId($response['id'], $mediaType);
 
-
         $getProdOrDir = $mediaType === 'movie' ? 'Director' : 'Producer';
         $directorFromCast = array_filter($response['credits']['crew'], function ($crew) use ($getProdOrDir) {
             return $crew['job'] === $getProdOrDir;
         });
         $director = (new Collection($directorFromCast))->first(); // A la place un foreach ?
 
-        $favorites = User::where('favorite_films', 'like', "%{$response['id']}%")->count();
+        $favorites = User::where('favorite_media', 'like', "%{$response['id']}%")->count();
 
-        $reviews = Review::with('user:id,username,avatar')->where('movie_id', $response['id'])->paginate(5);
+        $reviews = Review::with('user:id,username,avatar')->whereJsonContains('movie->id', (string)$response['id'])->paginate(5);
 
-        $note = Review::where('movie_id', $response['id'])->avg('note');
+        $note = Review::whereJsonContains('movie->id', (string)$response['id'])->avg('note');
 
         return view('movies.show', [
             'movie' => $response,
@@ -59,35 +59,30 @@ class MovieController extends Controller
         ]);
     }
 
-    public function movieToFavorite(string $movie)
+    public function mediaToFavorite(string $id, string $mediaType, string $media)
     {
         $user = request()->user();
 
-        $favoriteFilms = json_decode($user->favorite_films, true);
+        $favoriteMedias = json_decode($user->favorite_media, true);
 
-        if (!is_array($favoriteFilms)) {
-            $favoriteFilms = [];
+        if (!is_array($favoriteMedias)) {
+            $favoriteMedias = [];
         }
 
-        if (in_array($movie, $favoriteFilms)) {
-            $key = array_search($movie, $favoriteFilms);
+        if (array_key_exists($id, $favoriteMedias)) {
+            unset($favoriteMedias[$id]);
 
-            unset($favoriteFilms[$key]);
-
-            $user->update([
-                'favorite_films' => json_encode($favoriteFilms),
-            ]);
+            $user->favorite_media = $favoriteMedias;
 
             $user->save();
 
             return back()->with('success', 'Movie successfully removed from favorites');
         }
 
-        $favoriteFilms = array_merge($favoriteFilms, [$movie]);
+        $favoriteMedias[$id] = ['mediaType' => $mediaType, 'media' => $media];
 
-        $user->update([
-            'favorite_films' => json_encode($favoriteFilms),
-        ]);
+        $user->favorite_media = $favoriteMedias;
+        $user->save();
 
         return back()->with('success', 'Movie added to favorites');
     }

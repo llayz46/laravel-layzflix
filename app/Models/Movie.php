@@ -9,27 +9,26 @@ use Illuminate\Support\Facades\Http;
 
 class Movie extends Model
 {
-    public static function favorites(User $user, Bool $slice = false): array|null
+    public static function favorites(User $user, Int|bool $elements = false): array|null
     {
-        if($user->favorite_films) {
-            $favoriteFilms = json_decode($user->favorite_films, true);
+        if($user->favorite_media) {
+            $favoriteMedia = json_decode($user->favorite_media, true);
 
-            if ($slice) {
-                $favoriteFilms = array_slice($favoriteFilms, -5);
+            if ($elements) {
+                $keys = array_keys($favoriteMedia);
+                $last_keys = array_slice($keys, 0, $elements);
+                $favoriteMedia = array_intersect_key($favoriteMedia, array_flip($last_keys));
             }
 
-            $favoriteFilms = array_reverse($favoriteFilms);
-
-            $movies = [];
-
-            foreach ($favoriteFilms as $movie) {
+            $medias = [];
+            foreach ($favoriteMedia as $id => $media) {
                 $TmdbResult = new TmdbResult();
-                $response = $TmdbResult->show($movie, 'movie');
+                $response = $TmdbResult->show($id, $media['mediaType']);
 
-                $movies[] = $response;
+                $medias[] = $response;
             }
 
-            return $movies;
+            return $medias;
         }
 
         return null;
@@ -37,9 +36,9 @@ class Movie extends Model
 
     public static function getNumberOfFavoritesMovies(User $user): int
     {
-        if($user->favorite_films) {
-            $favoriteFilms = json_decode($user->favorite_films, true);
-            return count($favoriteFilms);
+        if($user->favorite_media) {
+            $favoriteMedia = json_decode($user->favorite_media, true);
+            return count($favoriteMedia);
         }
 
         return 0;

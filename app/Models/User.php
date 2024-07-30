@@ -27,6 +27,7 @@ class User extends Authenticatable
         'bio',
         'favorite_films',
         'password',
+        'level',
     ];
 
     /**
@@ -82,5 +83,19 @@ class User extends Authenticatable
     public function messagesReceived(): HasMany
     {
         return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function userLevel(): void
+    {
+        $reviews = $this->reviews()->count();
+
+        $userLevel = match (true) {
+            $reviews < 5 => 1,
+            default => ceil($reviews / 5),
+        };
+
+        $this->update([
+            'level' => $userLevel,
+        ]);
     }
 }
