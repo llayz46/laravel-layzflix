@@ -17,9 +17,12 @@
             <div
                 class="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-white/10 focus-within:ring-2 focus-within:ring-primary-500 @error('comment') ring-red-500 dark:ring-red-500 @enderror<">
                 <label for="comment" class="sr-only">Add your comment</label>
+                @php
+                    $value = session('review') ? session('review')['comment'] : ($userReview ? $userReview->comment : '');
+                @endphp
                 <textarea rows="3" name="comment" id="comment"
                           class="block w-full resize-none border-0 bg-transparent py-1.5 text-title placeholder:text-body focus:ring-0 sm:text-sm sm:leading-6"
-                          placeholder="Add your comment..." {{ $errors->has('comment') || $errors->has('note') ? 'autofocus' : '' }}>@if(session('review'))@if(session('review')['comment']){{ Str::trim(session('review')['comment']) }}@endif@endif @if($userReview){{ Str::trim($userReview->comment) }}@endif</textarea>
+                          placeholder="Add your comment..." {{ $errors->has('comment') || $errors->has('note') ? 'autofocus' : '' }}>{{ $value }}</textarea>
             </div>
 
             <div class="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
