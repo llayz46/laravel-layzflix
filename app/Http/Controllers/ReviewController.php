@@ -13,11 +13,10 @@ class ReviewController extends Controller
     public function addReview(ReviewRequest $request): RedirectResponse
     {
         $data = $request->validated();
-
         $data['user_id'] = auth()->id();
 
-        if (auth()->user()->reviews()->where('movie', $data['movie']['id'])->exists()) {
-            $review = auth()->user()->reviews()->where('movie', $data['movie']['id'])->first();
+        if (auth()->user()->reviews()->whereJsonContains('movie->id', $data['movie']['id'])->exists()) {
+            $review = auth()->user()->reviews()->whereJsonContains('movie->id', $data['movie']['id'])->first();
             $review->update($data);
 
             auth()->user()->userLevel();
