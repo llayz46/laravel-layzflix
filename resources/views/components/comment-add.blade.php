@@ -19,7 +19,7 @@
                 <label for="comment" class="sr-only">Add your comment</label>
                 <textarea rows="3" name="comment" id="comment"
                           class="block w-full resize-none border-0 bg-transparent py-1.5 text-title placeholder:text-body focus:ring-0 sm:text-sm sm:leading-6"
-                          placeholder="Add your comment..." {{ $errors->has('comment') || $errors->has('note') ? 'autofocus' : '' }}>@if(session('review'))@if(session('review')['comment']){{ Str::trim(session('review')['comment']) }}@endif@endif@if($userReview){{ Str::trim($userReview->comment) }}@endif</textarea>
+                          placeholder="Add your comment..." {{ $errors->has('comment') || $errors->has('note') ? 'autofocus' : '' }}>@if(session('review'))@if(session('review')['comment']){{ Str::trim(session('review')['comment']) }}@endif@endif @if($userReview){{ Str::trim($userReview->comment) }}@endif</textarea>
             </div>
 
             <div class="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
