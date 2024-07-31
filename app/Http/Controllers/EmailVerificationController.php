@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -18,5 +19,16 @@ class EmailVerificationController extends Controller
         $request->fulfill();
 
         return redirect()->intended(route('home'));
+    }
+
+    public function sendVerificationEmail(Request $request): RedirectResponse
+    {
+        if(auth()->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('home'));
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Verification link successfully sent!');
     }
 }

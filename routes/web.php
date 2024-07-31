@@ -7,7 +7,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\EmailVerificationController;
@@ -43,20 +42,11 @@ Route::controller(AuthController::class)->name('auth.')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [EmailVerificationController::class, 'verifyView'])->name('verification.notice'); // Email verification view page
     Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify'); // Verify email
-
-    Route::post('/email/verification-notification', function (Request $request) { // Send email verification link -> resend
-        if(auth()->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('home'));
-        }
-
-        $request->user()->sendEmailVerificationNotification();
-
-        return back()->with('success', 'Verification link successfully sent!');
-    })->middleware('throttle:6,1')->name('verification.send');
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('throttle:6,1')->name('verification.send'); // Send email verification link -> resend
 });
 
 // Settings routes
-Route::controller(SettingsController::class)->middleware('auth')->group(function () {
+Route::controller(SettingsController::class)->middleware('verified')->group(function () {
     Route::get('/settings', 'index')->name('settings.index'); // Settings view page
     Route::patch('/settings', 'update')->name('profile.update'); // Update a user profile
     Route::put('/settings', 'updatePassword')->name('profile.updatePassword'); // Update a user password
