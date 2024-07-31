@@ -34,7 +34,7 @@ class VerifiedUserMiddleware
         if (!$request->user() ||
             ($request->user() instanceof MustVerifyEmail &&
                 !$request->user()->hasVerifiedEmail())) {
-            if ($request->all('comment') || $request->all('note')) {
+            if ($request->all('comment')) {
                 $data = [
                     'comment' => $request->input('comment'),
                 ];
