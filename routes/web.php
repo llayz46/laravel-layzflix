@@ -15,7 +15,7 @@ use App\Http\Controllers\EmailVerificationController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Review routes
-Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('verified')->group(function () {
+Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('verified_user')->group(function () {
     Route::post('/', 'addReview')->name('add'); // Store a review
     Route::delete('/{review}', 'deleteReview')->name('delete'); // Delete a review
 });
@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Settings routes
-Route::controller(SettingsController::class)->middleware('verified')->group(function () {
+Route::controller(SettingsController::class)->middleware('verified_user')->group(function () {
     Route::get('/settings', 'index')->name('settings.index'); // Settings view page
     Route::patch('/settings', 'update')->name('profile.update'); // Update a user profile
     Route::put('/settings', 'updatePassword')->name('profile.updatePassword'); // Update a user password

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\VerifiedUserMiddleware;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -37,5 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 ->greeting('Hey !')
                 ->action('Verify my email', $url);
         });
+
+        $this->app['router']->aliasMiddleware('verified_user', VerifiedUserMiddleware::class);
     }
 }
