@@ -7,13 +7,16 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Http\Controllers\EmailVerificationController;
 
 // Home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Review routes
-Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('auth')->group(function () {
+Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('verified')->group(function () {
     Route::post('/', 'addReview')->name('add'); // Store a review
     Route::delete('/{review}', 'deleteReview')->name('delete'); // Delete a review
 });
@@ -34,6 +37,22 @@ Route::controller(AuthController::class)->name('auth.')->group(function () {
     Route::post('/login', 'doLogin')->name('doLogin')->middleware('guest'); // Login a user
 
     Route::delete('/logout', 'destroy')->name('logout')->middleware('auth'); // Logout a user
+});
+
+// Email verification routes
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [EmailVerificationController::class, 'verifyView'])->name('verification.notice'); // Email verification view page
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify'); // Verify email
+
+    Route::post('/email/verification-notification', function (Request $request) { // Send email verification link -> resend
+        if(auth()->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('home'));
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Verification link successfully sent!');
+    })->middleware('throttle:6,1')->name('verification.send');
 });
 
 // Settings routes
