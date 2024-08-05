@@ -33,9 +33,11 @@
                         </li>
                     @endforeach
                 </ul>
-                <div class="border-t border-gray-200 dark:border-white/10 pt-5 mt-5">
-                    {{ $friends->links() }}
-                </div>
+                @if($friends->hasPages())
+                    <div class="border-t border-gray-200 dark:border-white/10 pt-5 mt-5">
+                        {{ $friends->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
