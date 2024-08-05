@@ -63,14 +63,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class);
     }
 
-    public function friends(): HasMany
+    public function followers(): HasMany
     {
-        return $this->hasMany(Friend::class);
+        return $this->hasMany(Follower::class);
     }
 
-    public function isFriendWith(User $user): bool
+    public function isFollowing(User $user): bool
     {
-        return Friend::where('user_id', $this->id)
+        return Follower::where('user_id', $this->id)
             ->where('friend_id', $user->id)
             ->exists();
     }

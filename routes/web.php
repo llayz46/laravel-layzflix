@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\FriendController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
@@ -63,8 +63,8 @@ Route::controller(ProfileController::class)->name('profile.')->group(function ()
     Route::get('/profile/{user:username}/friends', 'friends')->middleware('auth')->name('friends'); // User friends view page
 });
 
-// Friend routes
-Route::controller(FriendController::class)->middleware('auth')->name('friend.')->group(function () {
-    Route::post('/friend/{user:username}', 'add')->name('add'); // Add a friend
-    Route::delete('/friend/{user:username}', 'delete')->name('delete'); // Delete a friend
+// Follower routes
+Route::controller(FollowerController::class)->middleware('auth')->name('follow.')->group(function () {
+    Route::post('/follower/{user:username}', 'add')->name('add'); // Add a user at followers
+    Route::delete('/follower/{user:username}', 'delete')->name('delete'); // Delete a user from followers
 });

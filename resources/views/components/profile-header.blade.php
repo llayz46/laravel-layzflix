@@ -1,4 +1,4 @@
-@props(['user', 'numberOfMovies' => true, 'numberOfReviews' => true])
+@props(['user', 'numberOfMovies' => true, 'numberOfReviews' => true, 'followers' => true])
 
 <div class="flex justify-between">
     <div>
@@ -23,19 +23,19 @@
                 @if($user->id === auth()->user()->id)
                     <x-button href="{{ route('settings.index') }}">Edit profile</x-button>
                     @if(!request()->routeIs('profile.friends'))
-                        <x-button href="{{ route('profile.friends', $user->username) }}" type="secondary">Friend list</x-button>
+                        <x-button href="{{ route('profile.friends', $user->username) }}" type="secondary">Followed users</x-button>
                     @endif
                 @else
-                    @if(!auth()->user()->isFriendWith($user))
-                        <form action="{{ route('friend.add', $user) }}" method="post">
+                    @if(!auth()->user()->isFollowing($user))
+                        <form action="{{ route('follow.add', $user) }}" method="post">
                             @csrf
-                            <x-button type="submit">Add friend</x-button>
+                            <x-button type="submit">Follow</x-button>
                         </form>
                     @else
-                        <form action="{{ route('friend.delete', $user) }}" method="post">
+                        <form action="{{ route('follow.delete', $user) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <x-button type="submit">Remove friend</x-button>
+                            <x-button type="submit">Unfollow</x-button>
                         </form>
                     @endif
                 @endif
@@ -57,6 +57,10 @@
 
         @if($numberOfReviews)
             <x-badge tag="span">{{ $numberOfReviews }} Review(s)</x-badge>
+        @endif
+
+        @if($followers)
+            <x-badge tag="span">{{ $followers }} Follower(s)</x-badge>
         @endif
     </div>
 </div>

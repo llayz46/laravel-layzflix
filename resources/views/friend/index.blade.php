@@ -7,8 +7,8 @@
         <div class="mt-6">
             <div class="flex justify-between">
                 <div>
-                    <h2 class="text-base font-semibold leading-8 text-primary-500">Friends list</h2>
-                    <p class="text-sm font-medium text-body">Browse your friends list</p>
+                    <h2 class="text-base font-semibold leading-8 text-primary-500">Users you follow</h2>
+                    <p class="text-sm font-medium text-body">Browse your followed users</p>
                 </div>
                 <x-button type="secondary" href="{{ route('profile.index', $user->username) }}" class="h-fit mt-auto">Back to profile</x-button>
             </div>
@@ -24,10 +24,10 @@
                                 </div>
                             </div>
                             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <form action="{{ route('friend.delete', $friend) }}" method="post">
+                                <form action="{{ route('follow.delete', $friend) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <x-button type="danger">Remove friend</x-button>
+                                    <x-button type="danger">Unfollow</x-button>
                                 </form>
                             </div>
                         </li>
