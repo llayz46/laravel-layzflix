@@ -10,6 +10,7 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -114,7 +115,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function friends()
+    public function following()
     {
         $friendsIds = Follower::where('user_id', auth()->id())->pluck('friend_id')->toArray();
         $friends = User::whereIn('id', $friendsIds)->select('username', 'bio', 'avatar', 'id')->paginate(10);
@@ -122,6 +123,22 @@ class ProfileController extends Controller
         return view('friend.index', [
             'user' => auth()->user(),
             'friends' => $friends,
+        ]);
+    }
+
+    public function followers()
+    {
+        $user = auth()->user();
+
+        if(!$user->isPremium()) {
+            return back()->with('error', 'You need to be a premium user to access this feature.');
+        }
+
+        $followers = Follower::where('friend_id', auth()->id())->with('user:id,username')->paginate(10);
+
+        return view('friend.followers', [
+            'user' => $user,
+            'followers' => $followers,
         ]);
     }
 }

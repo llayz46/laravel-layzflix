@@ -22,8 +22,13 @@
 
                 @if($user->id === auth()->user()->id)
                     <x-button href="{{ route('settings.index') }}">Edit profile</x-button>
-                    @if(!request()->routeIs('profile.friends'))
-                        <x-button href="{{ route('profile.friends', $user->username) }}" type="secondary">Followed users</x-button>
+
+                    @if(!request()->routeIs('profile.following'))
+                        <x-button href="{{ route('profile.following', $user->username) }}" type="secondary">Followed users</x-button>
+                    @endif
+
+                    @if(auth()->user()->isPremium())
+                        <x-button href="{{ route('profile.followers', $user->username) }}" type="secondary">Followers</x-button>
                     @endif
                 @else
                     @if(!auth()->user()->isFollowing($user))

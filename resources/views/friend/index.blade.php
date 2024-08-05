@@ -2,7 +2,7 @@
     <x-header class="dark:shadow-gray-500/5"/>
 
     <div class="mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 mt-8 sm:mt-6">
-        <x-profile-header :user="$user" :numberOfMovies="false" :numberOfReviews="false"/>
+        <x-profile-header :user="$user" :numberOfMovies="false" :numberOfReviews="false" :followers="false"/>
 
         <div class="mt-6">
             <div class="flex justify-between">

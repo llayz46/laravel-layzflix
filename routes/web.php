@@ -60,7 +60,8 @@ Route::controller(ProfileController::class)->name('profile.')->group(function ()
 
     Route::get('/profile/{user:username}/reviews', 'reviews')->name('reviews'); // User reviews view page
     Route::get('/profile/{user:username}/favorites', 'favorites')->name('favorites'); // User favorites view page
-    Route::get('/profile/{user:username}/friends', 'friends')->middleware('auth')->name('friends'); // User friends view page
+    Route::get('/profile/{user:username}/following', 'following')->middleware('auth')->name('following'); // User friends view page
+    Route::get('/profile/{user:username}/followers', 'followers')->middleware('auth')->name('followers'); // User friends view page
 });
 
 // Follower routes

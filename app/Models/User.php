@@ -98,4 +98,13 @@ class User extends Authenticatable implements MustVerifyEmail
             'level' => $userLevel,
         ]);
     }
+
+    public function isPremium(): bool
+    {
+        if ($this->premium) {
+            return true;
+        }
+
+        return false;
+    }
 }
