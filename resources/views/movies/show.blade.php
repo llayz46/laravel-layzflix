@@ -20,7 +20,7 @@
                     @endif
                 </div>
 
-                <div class="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:ml-0 lg:max-w-none">
+                <div class="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:ml-0 lg:max-w-none" data-controller="dropdown">
                     <div class="flex flex-col-reverse">
                         <h1 class="mt-4 text-2xl font-bold tracking-tight text-title sm:text-3xl">{{ Str::title($movie['normalized_title']) }}</h1>
 
@@ -86,6 +86,14 @@
                             </button>
                             <p class="relative -ml-px inline-flex items-center rounded-r-md bg-background px-3 py-2 text-sm font-semibold text-title ring-1 ring-inset ring-gray-200 dark:ring-white/10 focus:z-10 cursor-default">{{ $favorites }}</p>
                         </form>
+
+                        <button type="button" data-action="dropdown#toggle keydown.esc->dropdown#toggle" class="rounded-full bg-primary-600 p-1.5 ml-2 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                            </svg>
+                        </button>
+
+                        <x-drawer/>
                     @endauth
 
                     @if ($movie['credits']['cast'])
