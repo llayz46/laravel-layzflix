@@ -5,16 +5,6 @@
     <div class="fixed inset-0 overflow-hidden">
         <div class="absolute inset-0 overflow-hidden">
             <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                <!--
-                  Slide-over panel, show/hide based on slide-over state.
-
-                  Entering: "transform transition ease-in-out duration-500 sm:duration-700"
-                    From: "translate-x-full"
-                    To: "translate-x-0"
-                  Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
-                    From: "translate-x-0"
-                    To: "translate-x-full"
-                -->
                 <div class="pointer-events-auto w-screen max-w-md">
                     <div class="flex h-full flex-col divide-y divide-gray-200 dark:divide-white/10 bg-background shadow-xl">
                         <div class="flex min-h-0 flex-1 flex-col overflow-y-scroll py-6">
@@ -33,12 +23,28 @@
                                 </div>
                             </div>
                             <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                                <!-- Your content -->
+                                <form action="{{ route('playlist.addMedia') }}" method="post">
+                                    @csrf
+                                    <label for="playlist" class="block text-sm font-medium text-body">Playlist</label>
+                                    <select id="playlist" name="playlist" class="mt-1 block w-full pl-3 pr-10 py-2 text-base text-title border-gray-200 dark:border-white/10 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md">
+                                        <option value="">Select a playlist</option>
+                                        @foreach(auth()->user()->playlists as $playlist)
+                                            <option value="{{ $playlist->id }}">{{ $playlist->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="media_id" value="{{ $media['id'] }}">
+                                    <input type="hidden" name="media_title" value="{{ $media['normalized_title'] }}">
+                                    <input type="hidden" name="media_type" value="{{ $media['media_type'] }}">
+                                    @if($media['poster_path'])
+                                        <input type="hidden" name="media_poster" value="{{ $media['poster_path'] }}">
+                                    @endif
+
+                                    <x-button type="submit" class="mt-4">Add</x-button>
+                                </form>
                             </div>
                         </div>
                         <div class="flex flex-shrink-0 justify-end px-4 py-4 gap-4">
                             <x-button type="secondary" data-action="dropdown#toggle" class="cursor-pointer">Cancel</x-button>
-                            <x-button type="submit">Add</x-button>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
@@ -62,10 +63,21 @@ Route::controller(ProfileController::class)->name('profile.')->group(function ()
     Route::get('/profile/{user:username}/favorites', 'favorites')->name('favorites'); // User favorites view page
     Route::get('/profile/{user:username}/following', 'following')->middleware('auth')->name('following'); // User friends view page
     Route::get('/profile/{user:username}/followers', 'followers')->middleware('auth')->name('followers'); // User friends view page
+    Route::get('/profile/{user:username}/playlists', 'playlists')->name('playlists'); // User playlists view page
 });
 
 // Follower routes
 Route::controller(FollowerController::class)->middleware('auth')->name('follow.')->group(function () {
     Route::post('/follower/{user:username}', 'add')->name('add'); // Add a user at followers
     Route::delete('/follower/{user:username}', 'delete')->name('delete'); // Delete a user from followers
+});
+
+// Playlist routes
+Route::controller(PlaylistController::class)->name('playlist.')->middleware('verified_user')->group(function () {
+    Route::get('/profile/{user:username}/playlist/{playlist}-{name}', 'show')->name('show')->withoutMiddleware('verified_user'); // Playlist view page
+    Route::post('/playlist', 'store')->name('store'); // Store a playlist
+    Route::post('/playlist/add', 'addMedia')->name('addMedia'); // Add a media to a playlist
+    Route::patch('/playlist/{playlist}', 'update')->name('update'); // Update a playlist
+    Route::delete('/playlist/{playlist}', 'destroy')->name('delete'); // Delete a playlist
+    Route::delete('/playlist/{playlist}/{media}', 'deleteMedia')->name('deleteMedia'); // Delete a media from a playlist
 });

@@ -107,4 +107,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return false;
     }
+
+    public function playlists(): HasMany
+    {
+        return $this->hasMany(Playlist::class);
+    }
 }

@@ -10,8 +10,6 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -33,6 +31,12 @@ class ProfileController extends Controller
 
         $followers = Follower::where('friend_id', $user->id)->count();
 
+        if($user == auth()->user()) {
+            $playlists = $user->playlists()->orderBy('created_at', 'desc')->take(4)->get();
+        } else {
+            $playlists = $user->playlists()->where('is_public', true)->orderBy('created_at', 'desc')->take(4)->get();
+        }
+
         return view('profile.index', [
             'user' => $user,
             'movies' => $movies ?? [],
@@ -40,6 +44,7 @@ class ProfileController extends Controller
             'lastReviews' => $lastReviews ?? [],
             'numberOfReviews' => $numberOfReviews,
             'followers' => $followers,
+            'playlists' => $playlists,
         ]);
     }
 
@@ -140,5 +145,38 @@ class ProfileController extends Controller
             'user' => $user,
             'followers' => $followers,
         ]);
+    }
+
+    public function playlists(User $user)
+    {
+        if($user == auth()->user()) {
+            $playlists = $user->playlists()->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $playlists = $user->playlists()->where('is_public', true)->orderBy('created_at', 'desc')->paginate(10);
+        }
+
+        $numberOfReviews = Review::where('user_id', $user->id)->count();
+        $numberOfMovies = Movie::getNumberOfFavoritesMovies($user);
+
+        $page = request()->get('page', 1);
+        $totalPages = ceil(count($playlists) / 10);
+
+        return view('profile.playlists', [
+            'playlists' => $playlists,
+            'numberOfReviews' => $numberOfReviews,
+            'numberOfMovies' => $numberOfMovies,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'user' => $user,
+        ]);
+    }
+
+    public static function getHeadersData(User $user)
+    {
+        return [
+            'reviews' => $numberOfReviews = Review::where('user_id', $user->id)->count(),
+            'movies' => $numberOfMovies = Movie::getNumberOfFavoritesMovies($user),
+            'followers' => $followers = Follower::where('friend_id', $user->id)->count(),
+        ];
     }
 }

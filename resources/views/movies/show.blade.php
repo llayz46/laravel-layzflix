@@ -93,7 +93,7 @@
                             </svg>
                         </button>
 
-                        <x-drawer/>
+                        <x-drawer :media="$movie"/>
                     @endauth
 
                     @if ($movie['credits']['cast'])

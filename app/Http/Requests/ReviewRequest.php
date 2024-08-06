@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ReviewRequest extends FormRequest
 {
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'note' => (int) $this->note,
