@@ -1,0 +1,1 @@
+<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset text-rose-700 dark:text-rose-400 bg-gradient-to-tr from-red-50 to-blue-100 dark:from-rose-400/10 dark:to-blue-400/10 ring-rose-500/10 dark:ring-rose-500/20">Premium</span>

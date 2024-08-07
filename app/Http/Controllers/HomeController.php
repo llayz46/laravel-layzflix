@@ -10,8 +10,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-//        whereJsonContains('movie->id', (string)$response['id'])
-//        ->selectRaw('movie_id, AVG(note) as average_note')
         $topRatedMoviesFromReviews = Review::groupBy('movie')
             ->selectRaw('movie, avg(note) as average_note')
             ->orderBy('average_note', 'desc')
@@ -39,10 +37,17 @@ class HomeController extends Controller
         }
 
         $lastReviews = Review::orderBy('created_at', 'desc')->with('user:id,username,avatar')->take(3)->get();
+        $topUsers = Review::groupBy('user_id')
+            ->selectRaw('user_id, count(*) as reviews_count')
+            ->orderBy('reviews_count', 'desc')
+            ->with('user:id,username,avatar,bio')
+            ->take(3)
+            ->get();
 
         return view('home', [
             'topRatedMovies' => $topRatedMovies,
             'lastReviews' => $lastReviews,
+            'topUsers' => $topUsers,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
@@ -14,6 +15,12 @@ use App\Http\Controllers\EmailVerificationController;
 
 // Home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Fake payment page
+Route::controller(PaymentController::class)->name('payment.')->prefix('/payment')->middleware('auth')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/{user}', 'store')->name('store');
+});
 
 // Review routes
 Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('verified_user')->group(function () {

@@ -40,6 +40,34 @@
     </x-section>
 
     <x-section>
+        <x-section-title>Top 3 most active users</x-section-title>
+        <x-section-description>Our podium: Meet the 3 cinephiles who shine brightest through their activity and passion. Want to join them? Share your thoughts and climb the ranks!</x-section-description>
+        <div class="grid grid-cols-1 md:grid-cols-3 mt-6 lg:mt-8">
+            @if(count($topUsers) === 0)
+                <x-section-description>Sorry, for the moment we can't provide you the 3 most active users.</x-section-description>
+            @else
+                @foreach($topUsers as $topUser)
+                    <div class="sm:flex items-center">
+                        <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+                            <x-user-avatar class="h-20 w-20 w-full rounded-full border border-gray-300" :user="$topUser->user"/>
+                        </div>
+                        <div>
+                            <div class="inline-flex gap-3">
+                                <h4 class="text-lg font-bold">{{ $topUser->user->username }}</h4>
+                                @if($topUser->user->isPremium())
+                                    <x-profile-premium-badge/>
+                                @endif
+                            </div>
+                            <p>{{ $topUser->user->bio }}</p>
+                            <p class="mt-1">Post : {{ $topUser->reviews_count }} review.</p>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </x-section>
+
+    <x-section>
         <x-section-title>The last 3 reviews</x-section-title>
         <x-section-description>Stay updated with the latest insights from our community. Here are the most recent three reviews, offering fresh perspectives on the newest films and series. Discover what’s being said about the latest releases and find your next watch!</x-section-description>
         <div class="grid grid-cols-1 md:grid-cols-3 mt-6 lg:mt-8">
@@ -102,7 +130,7 @@
                                 <span class="text-5xl font-bold tracking-tight text-title">$40</span>
                                 <span class="text-sm font-semibold leading-6 tracking-wide text-body">USD</span>
                             </p>
-                            <a href="@auth / @endauth @guest {{ route('auth.login') }} @endguest" class="mt-10 block w-full rounded-md bg-accent-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600">Subscribe</a>
+                            <a href="{{ route('payment.index') }}" class="mt-10 block w-full rounded-md bg-accent-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600">Subscribe</a>
                             <p class="mt-6 text-xs leading-5 text-body">Streamlined expense reports with instant access to invoices and receipts.</p>
                         </div>
                     </div>

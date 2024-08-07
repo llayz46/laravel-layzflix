@@ -112,4 +112,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Playlist::class);
     }
+
+    public function subscribe()
+    {
+        $this->premium = true;
+        $this->save();
+    }
 }
