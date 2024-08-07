@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class MovieController extends Controller
@@ -49,11 +50,17 @@ class MovieController extends Controller
             });
 
             foreach ($directorFromCast as $dir) {
-                $director[] = $dir['name'];
+                $director[] = [
+                    'name' => $dir['name'],
+                    'id' => $dir['id'],
+                ];
             }
         } else {
             foreach ($response['created_by'] as $creator) {
-                $director[] = $creator['name'];
+                $director[] = [
+                    'name' => $creator['name'],
+                    'id' => $creator['id'],
+                ];
             }
         }
 
@@ -98,6 +105,19 @@ class MovieController extends Controller
         $user->save();
 
         return back()->with('success', 'Movie added to favorites');
+    }
+
+    public function searchForDirectorMedia(int $person, string $slug): View
+    {
+        $name = Str::title(str_replace('_', ' ', $slug));
+
+        $TmdbResult = new TmdbResult();
+        $response = $TmdbResult->searchByDirector($person);
+
+        return view('movies.directors', [
+            'response' => $response,
+            'name' => $name,
+        ]);
     }
 
     protected function getCreditsByMovieId(string $movie, string $mediaType): array

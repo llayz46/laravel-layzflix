@@ -9,7 +9,7 @@ class TmdbResult extends Model
 {
     protected $guarded = [];
 
-    protected function normalizeContent($results, $browse = false)
+    protected function normalizeContent($results, $browse = false, $person = false)
     {
         if ($browse) {
             if (isset($results['results'])) {
@@ -26,6 +26,20 @@ class TmdbResult extends Model
                 return $results;
             } else {
                 return 'No results found';
+            }
+        } elseif ($person) {
+            if (isset($results['success']) && !$results['success']) {
+                return 'No results found';
+            } else {
+                return collect($results['combined_credits']['crew'])
+                    ->filter(function ($crew) {
+                        return $crew['job'] === 'Director';
+                    })
+                    ->map(function ($director) {
+                        $director['normalized_title'] = $director['title'] ?? $director['name'];
+                        return $director;
+                    })
+                    ->toArray();
             }
         } else {
             if (isset($results['success']) && !$results['success']) {
@@ -78,5 +92,18 @@ class TmdbResult extends Model
         $results = $response->json();
 
         return $this->normalizeContent($results);
+    }
+
+    public function searchByDirector($person)
+    {
+        $response = Http::get("https://api.themoviedb.org/3/person/{$person}", [
+            'api_key' => config('services.tmdb.token'),
+            'append_to_response' => 'combined_credits',
+            'page' => request('page', 1),
+        ]);
+
+        $results = $response->json();
+
+        return $this->normalizeContent($results, false, true);
     }
 }

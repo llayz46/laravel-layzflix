@@ -33,6 +33,8 @@ Route::controller(MovieController::class)->name('movies.')->prefix('/medias')->g
     Route::get('/', 'search')->name('search'); // Browse movies page
     Route::get('/{id}-{mediaType}-{media}', 'show')->name('show'); // Show a movie page
     Route::post('/{id}-{mediaType}-{media}', 'mediaToFavorite')->name('favorite'); // Add a movie to favorite
+
+    Route::get('/{person}-{slug}', 'searchForDirectorMedia')->name('directors'); // Browse director's medias
 });
 
 // Auth routes

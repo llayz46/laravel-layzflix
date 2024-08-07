@@ -47,10 +47,10 @@
 
                     <div class="mt-4 space-y-2">
                         @if($movie['media_type'] === 'movie')
-                            <p class="text-sm text-body"><strong>Director</strong> : @if($director) @foreach($director as $dir) {{ $dir }}@if(!$loop->last),@endif @if($loop->index === 5) @break @endif @endforeach @else No info... @endif</p>
+                            <p class="text-sm text-body"><strong>Director</strong> : @if($director) @foreach($director as $dir) {{ $dir['name'] }}@if(!$loop->last),@endif @if($loop->index === 5) @break @endif @endforeach @else No info... @endif</p>
                             <p class="text-sm text-body"><strong>Release date</strong> : @if($movie['release_date']) <time datetime="{{ $movie['release_date'] }}">{{ \Carbon\Carbon::createFromDate($movie['release_date'])->toFormattedDateString() }}</time> @else No info... @endif</p>
                         @else
-                            <p class="text-sm text-body"><strong>Created by</strong> : @if($director) @foreach($director as $dir) {{ $dir }}@if(!$loop->last),@endif @if($loop->index === 5) @break @endif @endforeach @else No info... @endif</p>
+                            <p class="text-sm text-body"><strong>Created by</strong> : @if($director) @foreach($director as $dir) {{ $dir['name'] }}@if(!$loop->last),@endif @if($loop->index === 5) @break @endif @endforeach @else No info... @endif</p>
                             <p class="text-sm text-body"><strong>First episode</strong> : @if($movie['first_air_date']) <time datetime="{{ $movie['first_air_date'] }}">{{ \Carbon\Carbon::createFromDate($movie['first_air_date'])->toFormattedDateString() }}</time> @else No info... @endif</p>
                         @endif
                     </div>
