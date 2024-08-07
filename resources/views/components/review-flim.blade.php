@@ -2,7 +2,7 @@
 
 <div {{ $attributes->merge(['class' => "flex"]) }}>
     @if($review['movie']['poster_path'])
-        <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'mediaType' => $review['movie']['media_type'], 'media' => \Illuminate\Support\Str::slug($review['movie']['normalized_title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity">
+        <a href="{{ route('movies.show', ['id' => $review['movie']['id'], 'mediaType' => $review['movie']['media_type'], 'media' => \Illuminate\Support\Str::slug($review['movie']['normalized_title'])]) }}" class="mb-4 flex-shrink-0 sm:mb-0 mr-4 hover:opacity-35 transition-opacity max-[315px]:mx-auto">
             <img class="shadow h-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 w-32 object-cover" src="https://image.tmdb.org/t/p/original{{ $review['movie']['poster_path'] }}" alt="">
         </a>
     @else
@@ -10,9 +10,9 @@
             <img class="shadow h-full w-full border border-gray-300 dark:border-neutral-800 bg-white text-gray-300 sm:w-32 object-cover" src="{{ asset('images/movie_image_placeholder.webp') }}" alt="Sample image, we don't found the movie image">
         </a>
     @endif
-    <div>
+    <div class="max-[315px]:text-center">
         <h4 class="text-lg font-bold text-title">{{ $review['movie']['normalized_title'] }}</h4>
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-4 items-center max-[315px]:justify-center">
             <div class="my-2 flex items-center">
                 @for($i =0; $i < $review['note']; $i++)
                     <svg class="text-yellow-400 h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

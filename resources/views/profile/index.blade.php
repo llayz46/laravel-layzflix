@@ -35,7 +35,7 @@
                     </x-slot:buttons>
                     <x-slot:content>
                         @foreach($lastReviews as $review)
-                            <x-review-flim :review="$review" class="pb-5 border-b border-gray-200 dark:border-white/10"/>
+                            <x-review-flim :review="$review" class="pb-5 border-b border-gray-200 dark:border-white/10 max-[315px]:flex-col"/>
                         @endforeach
                     </x-slot:content>
                 </x-profile-section>

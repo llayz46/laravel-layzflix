@@ -1,6 +1,6 @@
 @props(['user', 'numberOfMovies' => true, 'numberOfReviews' => true, 'followers' => true])
 
-<div class="flex justify-between">
+<div class="flex justify-center min-[420px]:justify-between">
     <div>
         <div class="flex items-start space-x-5">
             <div class="flex-shrink-0">
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <div class="sm:mt-4 hidden sm:block @if(!$numberOfReviews && !$numberOfMovies) sm:hidden @endif">
+    <div class="sm:mt-4 flex flex-col max-[420px]:hidden space-y-1.5 md:block @if(!$numberOfReviews && !$numberOfMovies) sm:hidden @endif">
         @if($user->isPremium())
             <x-profile-premium-badge/>
         @endif
@@ -61,7 +61,7 @@
         <x-profile-level-badge :level="$user->level"/>
 
         @if($numberOfMovies)
-            <x-badge tag="span">{{ $numberOfMovies }} Favorite movie(s)</x-badge>
+            <x-badge tag="span">{{ $numberOfMovies }} Favorite movie/serie(s)</x-badge>
         @endif
 
         @if($numberOfReviews)
