@@ -20,15 +20,17 @@
                         @foreach($playlist->getMedias() as $movie)
                             <div class="flex flex-col">
                                 <x-card-film :movie="$movie"/>
-                                @if(auth()->user()->id === $playlist->user_id)
-                                    <form action="{{ route('playlist.deleteMedia', ['playlist' => $playlist, 'media' => $movie['id']]) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="media_id" value="{{$movie['id']}}">
-                                        <input type="hidden" name="playlist" value="{{  $playlist->id }}">
-                                        <x-button type="submit" class="mt-3 w-full">Delete {{ $movie['normalized_title'] }}</x-button>
-                                    </form>
-                                @endif
+                                @auth
+                                    @if(auth()->user()->id === $playlist->user_id)
+                                        <form action="{{ route('playlist.deleteMedia', ['playlist' => $playlist, 'media' => $movie['id']]) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="media_id" value="{{$movie['id']}}">
+                                            <input type="hidden" name="playlist" value="{{  $playlist->id }}">
+                                            <x-button type="submit" class="mt-3 w-full">Delete {{ $movie['normalized_title'] }}</x-button>
+                                        </form>
+                                    @endif
+                                @endauth
                             </div>
                         @endforeach
                     @endif

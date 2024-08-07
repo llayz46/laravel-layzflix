@@ -49,17 +49,17 @@
                 @foreach($topUsers as $topUser)
                     <div class="sm:flex items-center">
                         <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-                            <x-user-avatar class="h-20 w-20 w-full rounded-full border border-gray-300" :user="$topUser->user"/>
+                            <x-user-avatar class="h-20 w-20 rounded-full border border-gray-200 dark:border-white/10" :user="$topUser->user"/>
                         </div>
                         <div>
                             <div class="inline-flex gap-3">
-                                <h4 class="text-lg font-bold">{{ $topUser->user->username }}</h4>
+                                <h4 class="text-lg font-bold text-title">{{ $topUser->user->username }}</h4>
                                 @if($topUser->user->isPremium())
                                     <x-profile-premium-badge/>
                                 @endif
                             </div>
-                            <p>{{ $topUser->user->bio }}</p>
-                            <p class="mt-1">Post : {{ $topUser->reviews_count }} review.</p>
+                            <p class="text-body">{{ $topUser->user->bio }}</p>
+                            <p class="mt-1 text-body">Post : {{ $topUser->reviews_count }} review.</p>
                         </div>
                     </div>
                 @endforeach

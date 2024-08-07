@@ -4,7 +4,7 @@
             <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-base font-semibold leading-6 text-title">Payment method</h3>
                 <div class="mt-5">
-                    <div class="rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between">
+                    <div class="rounded-md bg-gray-50 dark:bg-gray-400/10 px-6 py-5 sm:flex sm:items-start sm:justify-between">
                         <h4 class="sr-only">Visa</h4>
                         <div class="sm:flex sm:items-start">
                             <svg class="h-8 w-auto sm:h-6 sm:flex-shrink-0" viewBox="0 0 36 24" aria-hidden="true">
