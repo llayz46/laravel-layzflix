@@ -1,4 +1,4 @@
-@props(['status'])
+@props(['status', 'title'])
 
 <div aria-live="assertive" data-controller="closeable" data-closeable-auto-close-value="4000" class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 z-50">
     <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
@@ -7,7 +7,7 @@
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
                         @switch($status)
-                            @case('success')
+                            @case('success' || 'reviewSuccess')
                                 <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -21,7 +21,7 @@
                         @endswitch
                     </div>
                     <div class="ml-3 w-0 flex-1 pt-0.5">
-                        <p class="text-sm font-medium text-title">{{ \Illuminate\Support\Str::ucfirst($status) }}!</p>
+                        <p class="text-sm font-medium text-title">{{ \Illuminate\Support\Str::ucfirst($title) }}!</p>
                         <p class="mt-1 text-sm text-body">{{ session($status) }}</p>
                     </div>
                     <div class="ml-4 flex flex-shrink-0">

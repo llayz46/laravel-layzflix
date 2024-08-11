@@ -9,6 +9,7 @@ export default class extends Controller {
             star.addEventListener('click', () => {
                 const note = index + 1
                 this.noteTarget.value = note
+                this.noteTarget.dispatchEvent(new Event('input'));
 
                 this.starsTargets.forEach((s, i) => {
                     if (i <= index) {

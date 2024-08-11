@@ -137,39 +137,7 @@
                     @endif
                 </div>
 
-                <div class="mx-auto mt-16 w-full max-w-2xl lg:col-span-4 lg:mt-0 lg:max-w-none">
-                    <div>
-                        <div class="border-b border-gray-200 dark:border-white/10 mb-10">
-                            <p class="border-transparent text-title whitespace-nowrap border-b-2 py-6 text-sm font-medium">Reviews</p>
-                        </div>
-
-                        <div class="-mb-10">
-                            <h3 class="sr-only">Reviews</h3>
-                            @foreach($reviews as $review)
-                                <x-comment-film :review="$review" :class="!$loop->last ? 'mb-10 border-b border-gray-200 dark:border-white/10' : ''"/>
-                            @endforeach
-                        </div>
-
-                        @if($reviews->hasPages())
-                            <div class="border-t border-gray-200 dark:border-white/10 pt-5 mt-10">
-                                {{ $reviews->links() }}
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="mx-auto mt-16 w-full max-w-2xl lg:col-span-4 lg:mt-0 lg:max-w-none">
-                    @auth
-                        <x-comment-add :movie="$movie"/>
-                    @endauth
-                    @guest
-                        <div class="flex justify-center">
-                            <div class="w-fit relative rounded-full px-3 py-1 text-sm leading-6 text-body ring-1 ring-gray-200 dark:ring-white/10 group">
-                                You must be logged in to add a comment. <a href="{{ route('auth.login') }}" class="font-semibold text-primary-500 group-hover:text-primary-400"><span class="absolute inset-0" aria-hidden="true"></span>Please sign in <span aria-hidden="true">&rarr;</span></a>
-                            </div>
-                        </div>
-                    @endguest
-                </div>
+                <livewire:review :$movie/>
             </div>
         </div>
     </div>

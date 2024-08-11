@@ -20,7 +20,7 @@
     @endif
 
     @if(session('success') || session('error'))
-        <x-notification status="{{ session('success') ? 'success' : 'error' }}"/>
+        <x-notification status="{{ session('success') ? 'success' : 'error' }}" title="{{ session('success') ? 'success' : 'error' }}"/>
     @endif
 </body>
 </html>

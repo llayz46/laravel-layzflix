@@ -9,7 +9,8 @@
         "hotwired-laravel/stimulus-laravel": "^1.1",
         "hotwired-laravel/turbo-laravel": "^2.0.0",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "livewire/livewire": "^3.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

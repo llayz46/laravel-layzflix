@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 
 class ReviewController extends Controller

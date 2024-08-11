@@ -66,15 +66,12 @@ class MovieController extends Controller
 
         $favorites = User::where('favorite_media', 'like', "%{$response['id']}%")->count();
 
-        $reviews = Review::with('user:id,username,avatar')->whereJsonContains('movie->id', (string)$response['id'])->paginate(5);
-
         $note = Review::whereJsonContains('movie->id', (string)$response['id'])->avg('note');
 
         return view('movies.show', [
             'movie' => $response,
             'director' => $director,
             'favorites' => $favorites,
-            'reviews' => $reviews,
             'note' => $note,
         ]);
     }
