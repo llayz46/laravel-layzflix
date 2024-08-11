@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use AllowDynamicProperties;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -87,16 +88,6 @@ class Review extends Component
         session()->flash('reviewSuccess', 'Review deleted successfully.');
 
         $this->reset('note', 'comment');
-    }
-
-    public function hydrate()
-    {
-        $this->initializeComment();
-    }
-
-    private function initializeComment($movie = null)
-    {
-        $this->comment = session('review')['comment'] ?? $existingReview ?? '';
     }
 
     public function render()

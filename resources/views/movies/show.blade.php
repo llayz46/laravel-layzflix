@@ -137,7 +137,7 @@
                     @endif
                 </div>
 
-                <livewire:review :$movie/>
+                <livewire:review :$movie />
             </div>
         </div>
     </div>
