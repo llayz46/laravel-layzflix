@@ -57,8 +57,7 @@ class Review extends Component
         $existingReview = auth()->user()->reviews()->whereJsonContains('movie->id', $data['movie']['id'])->first();
 
         if ($existingReview) {
-            $review = auth()->user()->reviews()->whereJsonContains('movie->id', $data['movie']['id'])->first();
-            $review->update($data);
+            $existingReview->update($data);
 
             auth()->user()->userLevel();
 
@@ -88,6 +87,16 @@ class Review extends Component
         session()->flash('reviewSuccess', 'Review deleted successfully.');
 
         $this->reset('note', 'comment');
+    }
+
+    public function hydrate()
+    {
+        $this->initializeComment();
+    }
+
+    private function initializeComment($movie = null)
+    {
+        $this->comment = session('review')['comment'] ?? $existingReview ?? '';
     }
 
     public function render()
