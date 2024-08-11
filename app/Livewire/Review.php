@@ -34,10 +34,12 @@ class Review extends Component
         $this->movieTitle = $movie['normalized_title'];
         $this->movieMediaType = $movie['media_type'];
 
-        $userReview = auth()->user()->reviews()->whereJsonContains('movie->id', (string)$this->movieId)->first();
-        if ($userReview) {
-            $this->comment = $userReview->comment;
-            $this->note = $userReview->note;
+        if (auth()->check()) {
+            $userReview = auth()->user()->reviews()->whereJsonContains('movie->id', (string)$this->movieId)->first();
+            if ($userReview) {
+                $this->comment = $userReview->comment;
+                $this->note = $userReview->note;
+            }
         }
     }
 
@@ -82,6 +84,10 @@ class Review extends Component
         $review->delete();
 
         auth()->user()->userLevel();
+
+        session()->flash('reviewSuccess', 'Review deleted successfully.');
+
+        $this->reset('note', 'comment');
     }
 
     public function render()
