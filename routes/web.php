@@ -21,12 +21,6 @@ Route::controller(PaymentController::class)->name('payment.')->prefix('/payment'
     Route::post('/{user}', 'store')->name('store');
 });
 
-// Review routes
-Route::controller(ReviewController::class)->name('review.')->prefix('/review')->middleware('verified_user')->group(function () {
-    Route::post('/', 'addReview')->name('add'); // Store a review
-    Route::delete('/{review}', 'deleteReview')->name('delete'); // Delete a review
-});
-
 // Movies routes
 Route::controller(MovieController::class)->name('movies.')->prefix('/medias')->group(function () {
     Route::get('/', 'search')->name('search'); // Browse movies page

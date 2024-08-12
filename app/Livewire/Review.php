@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use AllowDynamicProperties;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -31,6 +32,7 @@ class Review extends Component
 
     public function mount($movie)
     {
+        $this->refreshComponent();
         $this->movieId = $movie['id'];
         $this->movieTitle = $movie['normalized_title'];
         $this->movieMediaType = $movie['media_type'];
@@ -73,6 +75,11 @@ class Review extends Component
 
             $this->reset('note');
         }
+    }
+
+    public function refreshComponent()
+    {
+        $this->dispatch('$refresh');
     }
 
     public function delete(\App\Models\Review $review)

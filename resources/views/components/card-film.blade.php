@@ -1,6 +1,6 @@
 @props(['movie'])
 
-<a href="{{ route('movies.show', ['id' => $movie['id'], 'mediaType' => $movie['media_type'], 'media' => \Illuminate\Support\Str::slug($movie['normalized_title'])]) }}" {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }}>
+<a href="{{ route('movies.show', ['id' => $movie['id'], 'mediaType' => $movie['media_type'], 'media' => \Illuminate\Support\Str::slug($movie['normalized_title'])]) }}" {{ $attributes->merge(['class' => "overflow-hidden rounded-lg bg-background border border-gray-200 dark:border-white/10 shadow group relative"]) }} data-turbo="false">
     <span class="sr-only">Link to {{ $movie['normalized_title'] }}</span>
     @if($movie['poster_path'])
         <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" class="group-hover:opacity-35 transition-opacity h-full w-full" alt="Poster of : {{ $movie['normalized_title'] }}" sizes="(max-width: 1300px) 300px" loading="lazy">

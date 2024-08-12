@@ -55,7 +55,7 @@
                     <x-user-avatar class="inline-block h-10 w-10 rounded-full"/>
                 </div>
                 <div class="min-w-0 flex-1">
-                    <form wire:submit.prevent="save" class="relative">
+                    <form wire:submit.prevent="save" data-turbo="false" class="relative">
                         @php $userReview = auth()->user()->reviews()->whereJsonContains('movie', ['id' => (string)$movie['id']])->first() @endphp
                         @csrf
                         @error('note')
